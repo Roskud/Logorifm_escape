@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>По следам Профессора Логарифма</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+    <canvas class="matrix" id="matrix"></canvas>
+    <header>
+        <div class="header-content">
+            <img src="https://i.postimg.cc/q74Fdnpr/IMG-20250415-113958.png" alt="Logo" class="logo">
+            <h1>По следам Профессора Логарифма</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="developers.html">Разработчики</a></li>
+                <li><a href="support.html" class="active">Поддержка</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="support">
+            <h2>Мы всегда готовы помочь</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 2rem;">Если у вас есть вопросы, предложения или вы столкнулись с проблемой, пожалуйста, свяжитесь с нами. Наша команда поддержки ответит вам в течение 24 часов.</p>
+            
+            <div class="support-container">
+                <form class="contact-form" action="https://formspree.io/f/mrbpwdjn" method="POST" id="contactForm" autocomplete="off">
+                    <div class="form-group">
+                        <label for="name">Ваше имя:</label>
+                        <input type="text" id="name" name="name" required placeholder="Введите имя">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Ваш email (необязательно):</label>
+                        <input type="email" id="email" name="email" placeholder="example@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Тема сообщения:</label>
+                        <select id="subject" name="subject" required>
+                            <option value="" disabled selected>Выберите тему</option>
+                            <option value="technical">Техническая проблема</option>
+                            <option value="question">Вопрос по квестам</option>
+                            <option value="suggestion">Предложение по улучшению</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Сообщение:</label>
+                        <textarea id="message" name="message" required placeholder="Опишите вашу проблему или вопрос"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        Отправить <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+                <div class="success-message" id="successMessage" style="display:none;">
+                    Ваше сообщение отправлено!
+                </div>
+            </div>
+            
+            <div class="faq">
+                <h2>Часто задаваемые вопросы</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Как начать прохождение квеста?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Чтобы начать квест, перейдите на главную страницу, выберите интересующий вас квест по уровню сложности и нажмите кнопку "Начать". Вам будут последовательно предлагаться задания, которые нужно решить для продолжения квеста.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Как узнать правильный ответ, если я не могу решить задачу?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>В каждом квесте есть система подсказок. Если вы затрудняетесь с решением, нажмите кнопку "Подсказка". После нескольких попыток система может предложить вам правильный ответ с подробным объяснением.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Есть ли у вас платные квесты?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>В настоящее время все наши квесты абсолютно бесплатны. В будущем мы планируем добавить премиум-контент, но базовые квесты останутся доступными для всех пользователей без ограничений.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="easter-eggs-container">
+                <div class="egg-hint" id="eggHint" style="display:none;">
+                    <span>🥚 Поздравляем! Вы нашли пасхалку! <b>Секретный код:</b> <span class="egg-code">LOG42</span></span>
+                </div>
+                <button class="egg-btn" id="eggBtn" title="Нажми меня для сюрприза!">?</button>
+                <div class="egg-pixel" id="eggPixel" title="Кликни меня!"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Удалён footer с соц. сетями и копирайтом
+    <footer>
+        <div class="social-links">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p>© 2025 По следам Профессора Логарифма | Все права защищены</p>
+    </footer>
+    -->
+
+    <script>
+        // Matrix effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ff00';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 33);
+
+        // Анимация появления элементов
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('header');
+            header.style.opacity = '0';
+            setTimeout(() => {
+                header.style.opacity = '1';
+                header.style.transition = 'opacity 0.8s ease-in-out';
+            }, 200);
+
+            const card = document.querySelector('.contact-form');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+                card.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+            }, 200);
+
+            // Улучшенная анимация FAQ
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    const isActive = this.classList.contains('active');
+                    // Скрыть все остальные
+                    faqQuestions.forEach(q => {
+                        q.classList.remove('active');
+                        q.nextElementSibling.classList.remove('active');
+                        q.querySelector('i').classList.remove('fa-chevron-up');
+                        q.querySelector('i').classList.add('fa-chevron-down');
+                    });
+                    // Открыть выбранный
+                    if (!isActive) {
+                        this.classList.add('active');
+                        answer.classList.add('active');
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                        // Плавный скролл к открытому вопросу
+                        setTimeout(() => {
+                            this.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }, 300);
+                    }
+                });
+            });
+
+            // Пасхалка: кнопка ?
+            const eggBtn = document.getElementById('eggBtn');
+            const eggHint = document.getElementById('eggHint');
+            let eggShown = false;
+            if (eggBtn && eggHint) {
+                eggBtn.addEventListener('click', function() {
+                    eggHint.style.display = eggHint.style.display === 'none' ? 'block' : 'none';
+                    eggShown = !eggShown;
+                });
+            }
+
+            // Пасхалка: пиксель
+            const eggPixel = document.getElementById('eggPixel');
+            if (eggPixel) {
+                eggPixel.addEventListener('click', function() {
+                    alert('👾 Ты нашёл секретный пиксель!\n\nПрофессор Логарифм гордится тобой!');
+                    eggPixel.style.background = 'linear-gradient(135deg, #ffea00 60%, #00ff00 100%)';
+                    eggPixel.style.boxShadow = '0 0 32px #ffea00, 0 0 32px #00ff00 inset';
+                });
+            }
+
+            // Клавиатурная пасхалка: набери "logarifm"
+            let eggSeq = '';
+            document.addEventListener('keydown', function(e) {
+                eggSeq += e.key.toLowerCase();
+                if (eggSeq.length > 8) eggSeq = eggSeq.slice(-8);
+                if (eggSeq === 'logarifm') {
+                    eggHint.style.display = 'block';
+                    eggHint.innerHTML = '🔑 Супер-пасхалка! Ты ввёл секретное слово: <b>logarifm</b>';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
