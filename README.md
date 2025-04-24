@@ -46,7 +46,7 @@
 
 1. **Клонируй репозиторий**:  
    ```bash
-   git clone https://github.com/ваш_пользователь/labyrinth-of-logarithm.git
+   https://github.com/Roskud/Logorifm_escape.git
 Открой game.html:
 Перейди в папку проекта и открой game.html в браузере.
 Убедись, что стили подключены:
