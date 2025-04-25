@@ -23,7 +23,6 @@
             </ul>
         </nav>
     </header>
-
     <main>
         <div class="door-container">
             <div class="door-frame"></div>
@@ -42,7 +41,6 @@
             <div class="secret-message" id="secretMessage">👾 Секретный код: <b>M4TR1X</b></div>
         </div>
     </main>
-
     <footer>
         <p>&copy; 2025 По следам Профессора Логарифма. Все права защищены.</p>
         <div class="social-links">
@@ -51,9 +49,8 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
     </footer>
-
     <script>
-    // Эффект "Матрицы"
+
     document.addEventListener('DOMContentLoaded', function() {
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
@@ -63,7 +60,6 @@
         const fontSize = 16;
         const columns = canvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(0);
-
         function drawMatrix() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -80,7 +76,6 @@
         }
         drawMatrix();
 
-        // Пасхалка по клику на яйцо
         const doorEgg = document.getElementById('doorEgg');
         const secretMessage = document.getElementById('secretMessage');
         if (doorEgg && secretMessage) {
@@ -94,7 +89,6 @@
             });
         }
 
-        // Пасхалка: клавиатурная комбинация "matrix"
         let eggSeq = '';
         document.addEventListener('keydown', function(e) {
             eggSeq += e.key.toLowerCase();
@@ -108,7 +102,6 @@
             }
         });
 
-        // Открытие двери по клику
         const door = document.getElementById('door');
         const message = document.getElementById('message');
         const doorText = document.getElementById('doorText');
@@ -117,10 +110,10 @@
             door.addEventListener('click', () => {
                 if (door.classList.contains('open')) return;
                 door.classList.add('open');
-                // Скрываем лишние надписи
+
                 doorText.style.display = 'none';
                 doorEggDiv.style.display = 'none';
-                // Показываем только сообщение
+
                 message.style.opacity = '1';
                 message.style.transform = 'translate(-50%, -50%)';
                 setTimeout(() => {

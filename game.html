@@ -8,15 +8,11 @@
           var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
           var firstSheetName = workbook.SheetNames[0];
           var worksheet = workbook.Sheets[firstSheetName];
-
           var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-
           var filteredData = jsonData.filter(row =>
               row.some(cell => cell !== '' && cell !== null && cell !== undefined)
           );
-
           var csv = XLSX.utils.aoa_to_sheet(filteredData);
-
           csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
           return csv;
       } catch (e) {
@@ -45,7 +41,7 @@
 </div>
 </header>
 <main>
-<!-- Неоновая рамка с картинкой старта -->
+
 <div style="
   display: flex;
   flex-direction: column;
@@ -65,13 +61,12 @@
   </div>
   <button class="btn" style="margin-top: 1.5rem;" onclick="startPath()">Начать проникновение</button>
 </div>
-<!-- Сцена 1: Вступление -->
+
 <section class="scene" id="scene1">
   <h2>Пропавший гений</h2>
   <p>Профессор Логарифм, легенда математики, загадочным образом исчез. Его последний след ведёт в лабораторию "ZeroDivision". Вы — опытный хакер, призванный раскрыть правду. Перед вами запертая дверь, мигающий терминал и странные подсказки. Начните свою миссию!</p>
 </section>
 
-<!-- Фаза 1: Поиск доступа -->
 <section class="scene hidden" id="path1">
 <h2>Фаза 1 – Поиск доступа</h2>
 <p>Перед входом находятся несколько эмодзи, скрытых за замками с математическими примерами. Решите уравнения, чтобы открыть замки. Найдите ключ «🔑»!</p>
@@ -97,36 +92,31 @@
 <button class="btn back-btn" onclick="goBack(1)">Назад</button>
 </section>
 
-<!-- Фаза 2: Соединение проводов -->
 <section class="scene hidden" id="path2">
 <h2>Фаза 2 – Соединение проводов</h2>
 <p>На панели слева — числа, справа — математические выражения. Соедините их проводами так, чтобы каждое число соответствовало результату выражения. Провода можно переподключать, пока все пары не будут правильными.</p>
 <div class="wire-task" id="wireTask">
-  <!-- Левая сторона (числа) -->
+
   <div class="wire-point pos-left1" id="left1" onmousedown="startDraggingWire('v1', this, event)" onmouseup="stopDraggingWire(this)">16</div>
   <div class="wire-point pos-left2" id="left2" onmousedown="startDraggingWire('v2', this, event)" onmouseup="stopDraggingWire(this)">6</div>
   <div class="wire-point pos-left3" id="left3" onmousedown="startDraggingWire('v3', this, event)" onmouseup="stopDraggingWire(this)">2</div>
   <div class="wire-point pos-left4" id="left4" onmousedown="startDraggingWire('v4', this, event)" onmouseup="stopDraggingWire(this)">1</div>
   <div class="wire-point pos-left5" id="left5" onmousedown="startDraggingWire('v5', this, event)" onmouseup="stopDraggingWire(this)">24</div>
   <div class="wire-point pos-left6" id="left6" onmousedown="startDraggingWire('v6', this, event)" onmouseup="stopDraggingWire(this)">8</div>
-  
-  <!-- Правая сторона (уравнения) -->
+
   <div class="wire-point pos-right1" id="right1" data-equation="Math.cos(0)" onmouseup="stopDraggingWire(this)">cos(0)</div>
   <div class="wire-point pos-right2" id="right2" data-equation="Math.sqrt(4)" onmouseup="stopDraggingWire(this)">√4</div>
   <div class="wire-point pos-right3" id="right3" data-equation="factorial(3)" onmouseup="stopDraggingWire(this)">3!</div>
   <div class="wire-point pos-right4" id="right4" data-equation="Math.pow(2, 4)" onmouseup="stopDraggingWire(this)">2⁴</div>
   <div class="wire-point pos-right5" id="right5" data-equation="Math.pow(2, 3) * 3" onmouseup="stopDraggingWire(this)">2³×3</div>
   <div class="wire-point pos-right6" id="right6" data-equation="Math.pow(2, 3)" onmouseup="stopDraggingWire(this)">2³</div>
-  
   <canvas class="wire-canvas" id="wireCanvas"></canvas>
-  <!-- Удалите или закомментируйте следующую строку -->
-  <!-- <img src="images/Things_My_Dick_Does_049.png" alt="bottom" class="wire-bottom-image"> -->
+
 </div>
 <p id="result2" class="hidden"></p>
 <button class="btn back-btn" onclick="goBack(2)">Назад</button>
 </section>
 
-<!-- Фаза 3 – Ребус -->
 <section class="scene hidden" id="path3">
   <h2>Фаза 3 – Ребус</h2>
   <div style="display:flex; flex-direction:column; align-items:center;">
@@ -144,7 +134,6 @@
   <button class="btn back-btn" onclick="goBack(3)">Назад</button>
 </section>
 
-<!-- Фаза 4 – Шифр -->
 <section class="scene hidden" id="path4">
   <h2>Фаза 4 – Шифр</h2>
   <div style="display:flex; flex-direction:column; align-items:center;">
@@ -163,7 +152,6 @@
   <button class="btn back-btn" onclick="goBack(4)">Назад</button>
 </section>
 
-<!-- Фаза 5 – Секретный терминал -->
 <section class="scene hidden" id="path5">
   <h2>Фаза 5 – Секретный терминал</h2>
   <div style="display:flex; flex-direction:column; align-items:center; margin-bottom:2rem;">
@@ -188,7 +176,6 @@
   <button class="btn back-btn" onclick="goBack(5)">Назад</button>
 </section>
 
-<!-- Фаза 6: Финальный выбор -->
 <section class="scene hidden" id="path6">
 <h2>Фаза 6 – Финальный выбор</h2>
 <p id="finalText"></p>
@@ -229,7 +216,6 @@
 <button class="btn back-btn" onclick="goBack(6)">Назад</button>
 </section>
 
-<!-- Фаза 7: Быстрая реакция -->
 <section class="scene hidden" id="path7">
 <h2>Фаза 7 – Быстрая реакция</h2>
 <p>Перед тем как завершить миссию, система требует проверки вашей реакции! Поймайте как можно больше падающих объектов за 10 секунд!</p>
@@ -242,7 +228,6 @@
 <button class="btn back-btn" onclick="goBack(7)">Назад</button>
 </section>
 
-<!-- Фаза 8: Мигалка -->
 <section class="scene hidden" id="path8">
 <h2>Фаза 8 – Мигалка</h2>
 <p>Ваша миссия близка к завершению. Нажмите на мигающую точку как можно быстрее, чтобы подтвердить доступ к системе!</p>
@@ -255,7 +240,6 @@
 <button class="btn back-btn" onclick="goBack(8)">Назад</button>
 </section>
 
-<!-- Концовки -->
 <div class="ending" id="ending1">
 <h2>Триумф хакера!</h2>
 <img src="https://i.postimg.cc/HkBMfR38/file-00000000757061f8a4740df6f148b3f4-conversation-id-67f90bca-1d9c-8012-90ff-ad1c6de7e000-message-i.png" alt="Victory Scene" class="ending-image">
@@ -278,31 +262,26 @@
 </div>
 </main>
 
-<!-- Канвасы для анимаций концовок -->
 <canvas id="confettiCanvas" class="effect-canvas"></canvas>
 <canvas id="rainCanvas" class="effect-canvas"></canvas>
-
 <script>
 let currentStep = 1;
-let wiresConnected = {}; // { v1: { ...wire, targetId: 'right3' }, ... }
+let wiresConnected = {}; 
 let activeConnection = null;
 let choicesMade = {};
 let keyAttempts = 3;
 const wireCanvas = document.getElementById('wireCanvas');
 const wireCtx = wireCanvas.getContext('2d');
-wireCanvas.width = 1100; // было 1400
-wireCanvas.height = 700; // было 1100
-
+wireCanvas.width = 1100; 
+wireCanvas.height = 700; 
 function factorial(n) {
 if (n === 0 || n === 1) return 1;
 return n * factorial(n - 1);
 }
-
 function updateAttemptsInfo() {
 document.getElementById('attemptsInfo').textContent = "Осталось попыток: " + keyAttempts;
 }
 updateAttemptsInfo();
-
 const matrixCanvas = document.getElementById('matrix');
 const matrixCtx = matrixCanvas.getContext('2d');
 matrixCanvas.width = window.innerWidth;
@@ -311,7 +290,6 @@ const chars = '01';
 const fontSize = 18;
 const columns = matrixCanvas.width / fontSize;
 const drops = Array(Math.floor(columns)).fill(0);
-
 function drawMatrix() {
 matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
 matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
@@ -327,13 +305,11 @@ drops.forEach((y, i) => {
 requestAnimationFrame(drawMatrix);
 }
 drawMatrix();
-
 function startPath() {
 document.getElementById('scene1').className = 'scene hidden';
 document.getElementById('path1').className = 'scene';
 currentStep = 1;
 }
-
 function goBack(step) {
 if (step === 1) {
   document.getElementById(`path${step}`).className = 'scene hidden';
@@ -342,7 +318,7 @@ if (step === 1) {
 } else {
   showNextStep(step - 1);
 }
-// Reset phase-specific data if needed
+
 if (step === 2) {
   wiresConnected = {};
   activeConnection = null;
@@ -355,14 +331,12 @@ if (step === 6) {
   document.getElementById('keyDropzonesContainer').classList.add('hidden');
 }
 }
-
 function goBackFromEnding() {
   document.querySelectorAll('.ending').forEach(e => e.style.display = 'none');
-  // Возвращаем на финальный выбор (шаг 6)
+
   document.getElementById('path6').className = 'scene';
   currentStep = 6;
 }
-
 function unlockItem(element, expectedAnswer, hiddenEmoji, equation) {
 let answer = prompt(`Решите уравнение:\n${equation}\n(Ответ должен быть числом):`);
 if (answer && answer.trim() === expectedAnswer) {
@@ -377,68 +351,55 @@ if (answer && answer.trim() === expectedAnswer) {
   alert("Неправильный ответ! Попробуйте ещё раз.");
 }
 }
-
 let isDragging = false;
 let currentWire = null;
 let mouseX = 0;
 let mouseY = 0;
 let wireStartX = 0;
 let wireStartY = 0;
-
 let ropeSim = null;
-let ropeAnimFrame = null; // Новый флаг для requestAnimationFrame
-
+let ropeAnimFrame = null; 
 function startDraggingWire(id, startPoint, event) {
     event.preventDefault();
 
-    // Проверяем, существует ли уже провод
     if (wiresConnected[id]) {
         const rect = wireCanvas.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
         const clickY = event.clientY - rect.top;
         const wire = wiresConnected[id];
 
-        // Проверяем расстояние до обоих концов провода
         const startDist = Math.sqrt((clickX - wire.startX) ** 2 + (clickY - wire.startY) ** 2);
         const endDist = Math.sqrt((clickX - wire.endX) ** 2 + (clickY - wire.endY) ** 2);
 
-        // Если клик близко к любому концу провода - отсоединяем его
         if (startDist < 40 || endDist < 40) {
             delete wiresConnected[id];
             drawWires();
             return;
         }
     }
-
     isDragging = true;
     const rect = wireCanvas.getBoundingClientRect();
     const startRect = startPoint.getBoundingClientRect();
-
     wireStartX = startRect.left - rect.left + startRect.width / 2;
     wireStartY = startRect.top - rect.top + startRect.height / 2;
-
     currentWire = {
         id: id,
         startX: wireStartX,
         startY: wireStartY,
         startPoint: startPoint
     };
-
     startPoint.classList.add('active');
-
     document.addEventListener('mousemove', handleWireDrag);
     document.addEventListener('mouseup', handleWireRelease);
-
     startRopeAnimation();
 }
 
-// Для правых кружков:
 document.querySelectorAll('.wire-point[id^="right"]').forEach(point => {
     point.addEventListener('mousedown', function(event) {
-        // Найти левый кружок, соединённый с этим правым
+
         for (let key in wiresConnected) {
             if (wiresConnected[key] && wiresConnected[key].targetId === this.id) {
-                // Проверяем расстояние до конца провода
+
                 const rect = wireCanvas.getBoundingClientRect();
                 const clickX = event.clientX - rect.left;
                 const clickY = event.clientY - rect.top;
@@ -453,7 +414,6 @@ document.querySelectorAll('.wire-point[id^="right"]').forEach(point => {
         }
     });
 });
-
 function startRopeAnimation() {
     if (ropeAnimFrame) return;
     function animate() {
@@ -466,28 +426,22 @@ function startRopeAnimation() {
     }
     ropeAnimFrame = requestAnimationFrame(animate);
 }
-
 function handleWireDrag(event) {
   if (!isDragging || !currentWire) return;
-  
   event.preventDefault();
-  
   const rect = wireCanvas.getBoundingClientRect();
   mouseX = event.clientX - rect.left;
   mouseY = event.clientY - rect.top;
 }
-
 function handleWireRelease(event) {
   if (!isDragging || !currentWire) return;
   event.preventDefault();
-
   const rect = wireCanvas.getBoundingClientRect();
   const endPoint = document.elementFromPoint(event.clientX, event.clientY);
 
-  // Проверяем, что отпустили на правом кружке
   if (endPoint && endPoint.classList.contains('wire-point') && endPoint.id.startsWith('right')) {
     const endRect = endPoint.getBoundingClientRect();
-    // Удаляем старое соединение с этим правым кружком, если оно есть
+
     for (let key in wiresConnected) {
       if (wiresConnected[key] && wiresConnected[key].targetId === endPoint.id) {
         delete wiresConnected[key];
@@ -502,13 +456,12 @@ function handleWireRelease(event) {
       controlPoint1Y: 0,
       controlPoint2X: 0,
       controlPoint2Y: 0,
-      targetId: endPoint.id // сохраняем id правого кружка
+      targetId: endPoint.id 
     };
     updateWirePhysics(wiresConnected[currentWire.id]);
     checkWires();
   }
 
-  // Очищаем состояние
   currentWire.startPoint.classList.remove('active');
   isDragging = false;
   currentWire = null;
@@ -521,24 +474,19 @@ function handleWireRelease(event) {
   document.removeEventListener('mouseup', handleWireRelease);
   drawWires();
 }
-
 function updateWirePhysics(wire) {
     const dx = wire.endX - wire.startX;
     const dy = wire.endY - wire.startY;
     const distance = Math.sqrt(dx * dx + dy * dy);
-    
-    // Увеличиваем провисание в зависимости от длины провода
+
     const sag = distance * 0.15;
-    
-    // Вычисляем промежуточные точки для более плавной кривой
+
     wire.controlPoint1X = wire.startX + dx * 0.25;
     wire.controlPoint1Y = wire.startY + dy * 0.25 + sag;
-    
     wire.controlPoint2X = wire.startX + dx * 0.75;
     wire.controlPoint2Y = wire.startY + dy * 0.75 + sag;
 }
 
-// --- Новый блок: физика верёвки для временного провода ---
 function createRopeSim(startX, startY, endX, endY, segments = 16) {
     const points = [];
     for (let i = 0; i <= segments; i++) {
@@ -553,15 +501,13 @@ function createRopeSim(startX, startY, endX, endY, segments = 16) {
     }
     return { points, segments, gravity: 0.7, iterations: 8 };
 }
-
 function updateRopeSim(rope, startX, startY, endX, endY) {
-    // Первый и последний сегмент "пришиты" к началу и концу
+
     rope.points[0].x = startX;
     rope.points[0].y = startY;
     rope.points[rope.segments].x = endX;
     rope.points[rope.segments].y = endY;
 
-    // Verlet интеграция
     for (let i = 1; i < rope.segments; i++) {
         let p = rope.points[i];
         let vx = (p.x - p.oldx) * 0.98;
@@ -572,7 +518,6 @@ function updateRopeSim(rope, startX, startY, endX, endY) {
         p.y += vy + rope.gravity;
     }
 
-    // Constraints (длина сегмента)
     for (let k = 0; k < rope.iterations; k++) {
         for (let i = 0; i < rope.segments; i++) {
             let p1 = rope.points[i];
@@ -580,7 +525,7 @@ function updateRopeSim(rope, startX, startY, endX, endY) {
             let dx = p2.x - p1.x;
             let dy = p2.y - p1.y;
             let dist = Math.sqrt(dx * dx + dy * dy);
-            let diff = (dist - 40) / dist; // 40 - длина сегмента
+            let diff = (dist - 40) / dist; 
             if (i !== 0) {
                 p1.x += dx * diff * 0.5;
                 p1.y += dy * diff * 0.5;
@@ -592,15 +537,13 @@ function updateRopeSim(rope, startX, startY, endX, endY) {
         }
     }
 }
-
 function drawWirePath(wire, isTemp = false) {
     wireCtx.beginPath();
     wireCtx.strokeStyle = "#00ff00";
     wireCtx.lineWidth = 4;
     wireCtx.lineCap = "round";
-
     if (isTemp) {
-        // --- Физика верёвки ---
+
         if (!ropeSim || ropeSim.points.length !== 17) {
             ropeSim = createRopeSim(wire.startX, wire.startY, wire.endX, wire.endY, 16);
         }
@@ -610,7 +553,7 @@ function drawWirePath(wire, isTemp = false) {
             wireCtx.lineTo(ropeSim.points[i].x, ropeSim.points[i].y);
         }
     } else {
-        // Обычная кривая Безье для закреплённых проводов
+
         wireCtx.moveTo(wire.startX, wire.startY);
         wireCtx.bezierCurveTo(
             wire.controlPoint1X, wire.controlPoint1Y,
@@ -619,23 +562,19 @@ function drawWirePath(wire, isTemp = false) {
         );
     }
 
-    // Эффект свечения
     wireCtx.shadowColor = "#00ff00";
     wireCtx.shadowBlur = 15;
     wireCtx.stroke();
     wireCtx.shadowBlur = 0;
 }
-
 function drawWires() {
     wireCtx.clearRect(0, 0, wireCanvas.width, wireCanvas.height);
 
-    // Отрисовка существующих соединений
     for (let id in wiresConnected) {
         const wire = wiresConnected[id];
         drawWirePath(wire);
     }
 
-    // Отрисовка текущего перетаскиваемого провода
     if (isDragging && currentWire) {
         drawWirePath({
             startX: currentWire.startX,
@@ -644,30 +583,26 @@ function drawWires() {
             endY: mouseY
         }, true);
     } else {
-        ropeSim = null; // сбросить симуляцию, когда не тянем
+        ropeSim = null; 
     }
 }
-
 function checkWires() {
     const requiredConnections = [
-        ['v1', 'right4'], // 16 = 2⁴
-        ['v2', 'right3'], // 6 = 3!
-        ['v3', 'right2'], // 2 = √4
-        ['v4', 'right1'], // 1 = cos(0)
-        ['v5', 'right5'], // 24 = 2³×3
-        ['v6', 'right6']  // 8 = 2³
+        ['v1', 'right4'], 
+        ['v2', 'right3'], 
+        ['v3', 'right2'], 
+        ['v4', 'right1'], 
+        ['v5', 'right5'], 
+        ['v6', 'right6']  
     ];
-
     let allCorrect = requiredConnections.every(([wireId, targetId]) => {
         return wiresConnected[wireId] && wiresConnected[wireId].targetId === targetId;
     });
-
     if (allCorrect && Object.keys(wiresConnected).length === 6) {
         setTimeout(() => {
             document.getElementById('wireTask').style.boxShadow = '0 0 20px #00ff00';
             document.getElementById('result2').textContent = "Схема собрана правильно! Можно двигаться дальше.";
             document.getElementById('result2').className = "";
-
             if (!document.getElementById('continueBtn')) {
                 const continueBtn = document.createElement('button');
                 continueBtn.id = 'continueBtn';
@@ -682,7 +617,6 @@ function checkWires() {
         document.getElementById('result2').textContent = '';
     }
 }
-
 function handleRebusForm(event) {
   event.preventDefault();
   const answer = document.getElementById('rebusInput').value.trim().toLowerCase();
@@ -696,7 +630,6 @@ function handleRebusForm(event) {
   }
   return false;
 }
-
 function handleCipherForm(event) {
   event.preventDefault();
   const answer = document.getElementById('cipherInput').value.trim().toLowerCase();
@@ -710,7 +643,6 @@ function handleCipherForm(event) {
   }
   return false;
 }
-
 function solveRebus() {
 let answer = prompt("Введите ответ на ребус:");
 if (answer && answer.trim().toLowerCase() === "взлом") {
@@ -721,7 +653,6 @@ if (answer && answer.trim().toLowerCase() === "взлом") {
   alert("Неправильный ответ, попробуйте ещё раз.");
 }
 }
-
 function solveCipher() {
 let answer = prompt("Расшифруйте сообщение:\n\"лпе рспхжттпсб мпдбсйхнб\"");
 if (answer && answer.trim().toLowerCase() === "код логарифма") {
@@ -732,11 +663,9 @@ if (answer && answer.trim().toLowerCase() === "код логарифма") {
   alert("Неправильный ответ, попробуйте ещё раз.");
 }
 }
-
 function drag(event) {
 event.dataTransfer.setData("text", event.target.id);
 }
-
 function setupKeyDropzones() {
   document.querySelectorAll('.key-drop').forEach(dropzone => {
     dropzone.ondragover = (event) => {
@@ -774,7 +703,6 @@ function setupKeyDropzones() {
     };
   });
 }
-
 function addChoices(step) {
 let result = document.getElementById(`result${step}`);
 result.innerHTML += `
@@ -782,7 +710,6 @@ result.innerHTML += `
   <button class="btn" onclick="chooseAction(${step}, 'restart')">Начать заново</button>
 `;
 }
-
 function chooseAction(step, action) {
 if (action === 'continue' && step < 5) {
   showNextStep(step + 1);
@@ -815,7 +742,6 @@ if (action === 'continue' && step < 5) {
   setupKeyDropzones();
 }
 }
-
 function showNextStep(step) {
 document.getElementById(`path${currentStep}`).className = 'scene hidden';
 currentStep = step;
@@ -827,7 +753,6 @@ if (currentStep === 8) {
   startBlinkGame();
 }
 }
-
 function showEnding(ending) {
 const key = document.getElementById('keyCenter');
 if (key) {
@@ -844,15 +769,12 @@ if (ending === 1) {
 }
 }
 
-// Конфетти на весь экран для положительной концовки
 const confettiCanvas = document.getElementById('confettiCanvas');
 const confettiCtx = confettiCanvas.getContext('2d');
 confettiCanvas.width = window.innerWidth;
 confettiCanvas.height = window.innerHeight;
-
 function startConfetti() {
 let particles = [];
-
 function createParticle() {
   return {
     x: Math.random() * confettiCanvas.width,
@@ -865,7 +787,6 @@ function createParticle() {
     shape: Math.random() < 0.5 ? 'square' : 'circle'
   };
 }
-
 function updateParticles() {
   if (particles.length < 100 && Math.random() < 0.3) {
     particles.push(createParticle());
@@ -888,19 +809,15 @@ function updateParticles() {
   });
   requestAnimationFrame(updateParticles);
 }
-
 updateParticles();
 }
 
-// Дождь на весь экран для отрицательных концовок
 const rainCanvas = document.getElementById('rainCanvas');
 const rainCtx = document.getElementById('rainCanvas').getContext('2d');
 rainCanvas.width = window.innerWidth;
 rainCanvas.height = window.innerHeight;
-
 function startRain() {
 let drops = [];
-
 function createDrop() {
   return {
     x: Math.random() * rainCanvas.width,
@@ -910,7 +827,6 @@ function createDrop() {
     opacity: Math.random() * 0.5 + 0.3
   };
 }
-
 function updateDrops() {
   if (drops.length < 80 && Math.random() < 0.4) {
     drops.push(createDrop());
@@ -928,17 +844,14 @@ function updateDrops() {
   });
   requestAnimationFrame(updateDrops);
 }
-
 updateDrops();
 }
-
 let gameObjects = [];
 let score = 0;
 let gameInterval = null;
 let gameStartTime = 0;
 const gameCanvas = document.getElementById('reactionGame');
 const gameCtx = gameCanvas.getContext('2d');
-
 function startGame() {
 score = 0;
 gameObjects = [];
@@ -948,7 +861,6 @@ document.getElementById('restartGameBtn').classList.add('hidden');
 gameCanvas.addEventListener('click', gameClick);
 gameInterval = setInterval(updateGame, 50);
 }
-
 function updateGame() {
 const elapsed = Date.now() - gameStartTime;
 if (Math.random() < 0.1) {
@@ -968,7 +880,6 @@ if (elapsed > 10000) {
   endGame();
 }
 }
-
 function drawGame() {
 gameCtx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
 gameObjects.forEach(obj => {
@@ -981,7 +892,6 @@ gameCtx.font = "24px Courier New";
 gameCtx.fillStyle = "#00ff00";
 gameCtx.fillText("Счёт: " + score, 10, 30);
 }
-
 function gameClick(event) {
 const rect = gameCanvas.getBoundingClientRect();
 const clickX = event.clientX - rect.left;
@@ -996,7 +906,6 @@ for (let i = 0; i < gameObjects.length; i++) {
   }
 }
 }
-
 function endGame() {
 clearInterval(gameInterval);
 gameCanvas.removeEventListener('click', gameClick);
@@ -1004,18 +913,15 @@ document.getElementById('reactionResult').textContent = "Игра окончен
 document.getElementById('reactionResult').className = "";
 document.getElementById('restartGameBtn').classList.remove('hidden');
 }
-
 function restartGame() {
 startGame();
 }
-
 let blinkInterval = null;
 let blinkScore = 0;
 let blinkGameActive = false;
 const blinkCanvas = document.getElementById('blinkGame');
 const blinkCtx = blinkCanvas.getContext('2d');
 let currentBlink = null;
-
 function startBlinkGame() {
 blinkScore = 0;
 blinkGameActive = true;
@@ -1026,7 +932,6 @@ blinkInterval = setInterval(updateBlinkGame, 1000);
 setTimeout(endBlinkGame, 10000);
 drawBlinkGame();
 }
-
 function updateBlinkGame() {
 currentBlink = {
   x: Math.random() * (blinkCanvas.width - 40) + 20,
@@ -1035,7 +940,6 @@ currentBlink = {
 };
 drawBlinkGame();
 }
-
 function drawBlinkGame() {
 blinkCtx.clearRect(0, 0, blinkCanvas.width, blinkCanvas.height);
 if (currentBlink) {
@@ -1048,7 +952,6 @@ blinkCtx.font = "24px Courier New";
 blinkCtx.fillStyle = "#00ff00";
 blinkCtx.fillText("Счёт: " + blinkScore, 10, 30);
 }
-
 function blinkGameClick(event) {
 if (!currentBlink) return;
 const rect = blinkCanvas.getBoundingClientRect();
@@ -1061,7 +964,6 @@ if (dist < currentBlink.r) {
   drawBlinkGame();
 }
 }
-
 function endBlinkGame() {
 clearInterval(blinkInterval);
 blinkCanvas.removeEventListener('click', blinkGameClick);
@@ -1070,7 +972,6 @@ document.getElementById('blinkResult').textContent = "Игра окончена!
 document.getElementById('blinkResult').className = "";
 document.getElementById('restartBlinkBtn').classList.remove('hidden');
 }
-
 function restartBlinkGame() {
 startBlinkGame();
 }

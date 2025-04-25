@@ -1,4 +1,3 @@
-/* Shared styles across all pages */
 body {
     font-family: 'Courier New', monospace;
     background: #1a1a1a;
@@ -266,7 +265,6 @@ footer p {
     }
 }
 
-/* Styles specific to index.html */
 body.index {
     background-image: url('https://i.postimg.cc/D0XS6GVy/De-Watermark-ai-1744545113419.png');
     background-size: cover;
@@ -530,7 +528,6 @@ body.index::before {
     text-align: center;
 }
 
-/* Styles specific to developers.html */
 .developers {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -746,7 +743,6 @@ body.index::before {
     box-shadow: 0 0 16px #00ffea inset;
 }
 
-/* Styles specific to support.html */
 .support-container {
     margin-top: 2rem;
 }
@@ -926,7 +922,6 @@ body.index::before {
     animation: fadeIn 0.7s;
 }
 
-/* Анимации */
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px);}
     to { opacity: 1; transform: none;}
@@ -936,7 +931,6 @@ body.index::before {
     to { opacity: 1;}
 }
 
-/* Пульсация для заголовков */
 .support h2, .faq h2 {
     color: #00ffea;
     text-shadow: 0 0 16px #00ffea, 0 0 32px #00ff00;
@@ -948,7 +942,6 @@ body.index::before {
     to { text-shadow: 0 0 32px #00ffea, 0 0 48px #00ff00;}
 }
 
-/* Styles specific to quest.html */
 .door-container {
     display: flex;
     flex-direction: column;
@@ -958,7 +951,6 @@ body.index::before {
     position: relative;
 }
 
-/* Рамка и фон за дверью */
 .door-frame,
 .lab-bg-clip {
     width: 340px;
@@ -976,7 +968,6 @@ body.index::before {
     animation: neonPulse 2s infinite alternate;
 }
 
-/* Дверь чуть больше */
 .door {
     margin: 0 auto;
     display: flex;
@@ -984,7 +975,7 @@ body.index::before {
     justify-content: center;
     width: 364px;
     height: 544px;
-    border-radius: 32px; /* Сделайте такой же радиус, как у рамки! */
+    border-radius: 32px; 
     background: linear-gradient(135deg, #232323 70%, #222c22 100%);
     position: absolute;
     top: 50%;
@@ -1001,11 +992,10 @@ body.index::before {
     box-shadow: none;
 }
 
-/* Панель двери */
 .door-panel {
     width: 100%;
     height: 100%;
-    /* Заменяем градиент на текстуру */
+
     background: url('../images/door.png') center/cover no-repeat, linear-gradient(120deg, #232323 70%, #003300 100%);
     border-radius: 32px;
     position: relative;
@@ -1017,7 +1007,6 @@ body.index::before {
     overflow: hidden;
 }
 
-/* Фон внутри двери */
 .door-panel::before {
     content: "";
     position: absolute;
@@ -1033,18 +1022,15 @@ body.index::before {
     opacity: 1;
 }
 
-/* Поверх картинки все элементы панели */
 .door-panel > * {
     position: relative;
     z-index: 2;
 }
 
-/* Убираем окно двери */
 .door-panel .door-window {
     display: none !important;
 }
 
-/* Более красивая ручка двери */
 .door-handle {
     position: absolute;
     right: 32px;
@@ -1202,7 +1188,6 @@ body.index::before {
     position: relative;
 }
 
-/* Styles specific to game.html */
 body.game {
     font-size: 1.2rem;
 }
@@ -1375,7 +1360,7 @@ main.game {
 .wire-task {
     position: relative;
     width: 1100px;
-    height: 700px; /* было 1400px, уменьшено */
+    height: 700px; 
     margin: 2rem auto;
     background: rgba(0,0,0,0.7) url('../images/volt.png') center/cover no-repeat;
     border-radius: 20px;
@@ -1407,7 +1392,6 @@ main.game {
     text-align: center;
 }
 
-/* Обновленные позиции для точек */
 .pos-left1 { top: 45px; left: 60px; }
 .pos-left2 { top: 145px; left: 60px; }
 .pos-left3 { top: 245px; left: 60px; }
@@ -1428,7 +1412,7 @@ main.game {
     top: 0;
     left: 0;
     width: 1100px !important;
-    height: 700px !important; /* было 1400px, уменьшено */
+    height: 700px !important; 
     z-index: 0;
     pointer-events: none;
 }
@@ -1458,7 +1442,7 @@ main.game {
 }
 
 .ending-image {
-    max-width: 350px; /* было больше, уменьшили */
+    max-width: 350px; 
     width: 80%;
     height: auto;
     margin: 2rem auto 1rem auto;
@@ -1541,7 +1525,6 @@ main.game {
     }
 }
 
-/* Пасхалки и интерактив */
 .easter-eggs-container {
     position: relative;
     margin: 2.5rem auto 0 auto;

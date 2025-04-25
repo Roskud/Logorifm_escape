@@ -97,7 +97,7 @@
             </div>
         </section>
     </main>
-    
+
     <script>
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
@@ -146,27 +146,27 @@
                     const answer = this.nextElementSibling;
                     const icon = this.querySelector('i');
                     const isActive = this.classList.contains('active');
-                    // Скрыть все остальные
+
                     faqQuestions.forEach(q => {
                         q.classList.remove('active');
                         q.nextElementSibling.classList.remove('active');
                         q.querySelector('i').classList.remove('fa-chevron-up');
                         q.querySelector('i').classList.add('fa-chevron-down');
                     });
-                    // Открыть выбранный
+
                     if (!isActive) {
                         this.classList.add('active');
                         answer.classList.add('active');
                         icon.classList.remove('fa-chevron-down');
                         icon.classList.add('fa-chevron-up');
-                        // Плавный скролл к открытому вопросу
+
                         setTimeout(() => {
                             this.scrollIntoView({ behavior: "smooth", block: "center" });
                         }, 300);
                     }
                 });
             });
-            // Пасхалка: кнопка ?
+
             const eggBtn = document.getElementById('eggBtn');
             const eggHint = document.getElementById('eggHint');
             let eggShown = false;
@@ -176,7 +176,7 @@
                     eggShown = !eggShown;
                 });
             }
-            // Пасхалка: пиксель
+
             const eggPixel = document.getElementById('eggPixel');
             if (eggPixel) {
                 eggPixel.addEventListener('click', function() {
@@ -185,7 +185,7 @@
                     eggPixel.style.boxShadow = '0 0 32px #ffea00, 0 0 32px #00ff00 inset';
                 });
             }
-            // Клавиатурная пасхалка: набери "logarifm"
+
             let eggSeq = '';
             document.addEventListener('keydown', function(e) {
                 eggSeq += e.key.toLowerCase();
