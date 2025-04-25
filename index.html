@@ -22,20 +22,16 @@
             </ul>
         </nav>
     </header>
-
-    <!-- Всплывающая подсказка -->
+    
     <div id="tooltip" style="position:fixed;pointer-events:none;z-index:2000;background:#222;color:#00ff00;padding:0.5rem 1rem;border-radius:8px;box-shadow:0 0 8px #00ff00;display:none;font-size:1rem;"></div>
-
-    <!-- Случайная цитата/шутка -->
+    
     <div id="randomQuote" style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:#00ff00;padding:1rem 2rem;border-radius:12px;box-shadow:0 0 10px #00ff00;z-index:1001;font-size:1.1rem;cursor:pointer;transition:opacity 0.5s;"></div>
-
-    <!-- Секретная зона -->
+    
     <div id="secretZone" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.97);z-index:3000;align-items:center;justify-content:center;flex-direction:column;">
         <h2 style="color:#00ff00;margin-bottom:1rem;">СЕКРЕТНАЯ ЗОНА</h2>
         <p style="color:#fff;font-size:1.3rem;">Поздравляем! Ты нашёл секрет. Вот твой бонус: <span style="color:#00ff00;">🎁</span></p>
         <button class="start-btn" onclick="document.getElementById('secretZone').style.display='none'">Выйти</button>
     </div>
-
     <main>
         <section class="hero fade-in-up">
             <p class="glitch" style="font-size:2rem;line-height:1.5;margin-bottom:2.5rem;">
@@ -44,17 +40,14 @@
                 Каждое решение — <span style="color:#00ff00;">шаг к свободе великого ума</span>.<br>
                 <span style="font-size:1.5rem;">🧠💡🔐</span>
             </p>
-            
             <div class="terminal">
                 <div class="terminal-output" id="terminalOutput"></div>
                 <input type="text" id="terminalInput" placeholder="🔑 Введите команду для взлома..." onkeypress="handleTerminal(event)">
             </div>
-
             <div class="quest-description fade-in-up" id="questDescription">
                 <h3 style="font-size:1.7rem;color:#00ff00;">Что такое "По следам Профессора Логарифма"? 🤔</h3>
                 <p style="font-size:1.2rem;">Это не просто квест — это <b>цифровая миссия</b>, где ты — элитный хакер!<br>
                 Твоя цель: проникнуть в зашифрованный мир виртуальной тюрьмы и вызволить профессора Пифагора, похищенного за свои гениальные математические алгоритмы. 🧑‍💻🔓</p>
-                
                 <h3 style="color:#00ff00;">Как всё будет:</h3>
                 <ul style="font-size:1.1rem;">
                     <li>🟢 Взламывай цифровые замки с помощью логики и аналитики</li>
@@ -63,14 +56,12 @@
                     <li>🟢 Преодолей лабиринт цифровых ловушек</li>
                     <li>🟢 Спаси Профессора и узнай, кто стоит за этим заговором</li>
                 </ul>
-                
                 <h3 style="color:#00ff00;">Почему стоит попробовать:</h3>
                 <p style="font-size:1.1rem;">
                     Этот квест — <b>микс экшена и ума</b>!<br>
                     Прокачай свои навыки в логике, математике и критическом мышлении.<br>
                     <span style="font-size:1.3rem;">✨ Не дай себе заскучать ни на минуту! ✨</span>
                 </p>
-                
                 <div class="start-btn-container">
                     <a href="quest.html"><button class="start-btn">
                         <i class="fas fa-play"></i> 🚀 Начать приключение!
@@ -79,7 +70,6 @@
             </div>
         </section>
     </main>
-
     <div id="hintModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">×</span>
@@ -88,7 +78,6 @@
             <button class="start-btn" onclick="closeModal()">Закрыть</button>
         </div>
     </div>
-
     <script>
         // Terminal handling
         function handleTerminal(event) {
@@ -97,15 +86,12 @@
                 const output = document.getElementById('terminalOutput');
                 const description = document.getElementById('questDescription');
                 const command = input.value.toLowerCase().trim();
-
                 if (!command) {
                     input.value = '';
                     return;
                 }
-
                 let response = '';
                 let animated = false;
-
                 if (command === 'hack') {
                     response = 'Инициализация взлома... [УСПЕХ] Доступ получен!';
                     description.classList.add('show');
@@ -143,14 +129,11 @@
                     response = '<span class="cmd-unknown">Неизвестная команда. Введите <b>help</b>, чтобы увидеть все команды.</span>';
                     animated = true;
                 }
-
                 // Новый вывод: добавляем в конец, чтобы новые команды были внизу
                 output.innerHTML += `<div class="terminal-line${animated ? ' animated' : ''}"><span class="terminal-cmd">&gt; ${command}</span><br>${response}</div>`;
                 input.value = '';
-
                 // Прокрутка вниз к последней команде
                 output.scrollTop = output.scrollHeight;
-
                 // Анимация для новых команд
                 if (animated) {
                     setTimeout(() => {
@@ -160,7 +143,6 @@
                 }
             }
         }
-
         // Анимации для разных команд
         const style = document.createElement('style');
         style.innerHTML = `
@@ -179,29 +161,24 @@
 @keyframes secretPulse { from { color: #ff00aa; } to { color: #00ffea; } }
 `;
         document.head.appendChild(style);
-
         // Matrix effect
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
-
         function resizeCanvas() {
             canvas.height = window.innerHeight;
             canvas.width = window.innerWidth;
         }
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
-
         const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const fontSize = 14;
         let columns = Math.floor(canvas.width / fontSize);
         let drops = Array(columns).fill(1);
-
         function draw() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#00ff00';
             ctx.font = fontSize + 'px monospace';
-
             for (let i = 0; i < drops.length; i++) {
                 const text = chars.charAt(Math.floor(Math.random() * chars.length));
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -211,15 +188,12 @@
                 drops[i]++;
             }
         }
-
         function updateColumns() {
             columns = Math.floor(canvas.width / fontSize);
             drops = Array(columns).fill(1);
         }
         window.addEventListener('resize', updateColumns);
-
         setInterval(draw, 33);
-
         // Digital particles
         function createDigitalParticle() {
             const particle = document.createElement('div');
@@ -231,16 +205,13 @@
             setTimeout(() => particle.remove(), 10000);
         }
         setInterval(createDigitalParticle, 500);
-
         // Modal window
         function openModal() {
             document.getElementById('hintModal').style.display = 'flex';
         }
-
         function closeModal() {
             document.getElementById('hintModal').style.display = 'none';
         }
-
         // Click particles
         document.addEventListener('click', function(e) {
             for (let i = 0; i < 10; i++) {
@@ -252,7 +223,6 @@
                 setTimeout(() => particle.remove(), 2000);
             }
         });
-
         // Header animation
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.querySelector('header');
@@ -262,7 +232,6 @@
                 header.style.transition = 'opacity 0.8s ease-in-out';
             }, 200);
         });
-
         // --- ВСПЛЫВАЮЩИЕ ПОДСКАЗКИ ---
         const tooltip = document.getElementById('tooltip');
         document.querySelectorAll('.start-btn, .logo, nav a').forEach(el => {
@@ -280,7 +249,6 @@
             });
             el.addEventListener('mouseleave', () => tooltip.style.display = 'none');
         });
-
         // --- СЛУЧАЙНЫЕ ЦИТАТЫ/ШУТКИ ---
         const quotes = [
             'Математика — это язык Вселенной. 🌌',
@@ -300,7 +268,6 @@
         }
         showRandomQuote();
         document.getElementById('randomQuote').onclick = showRandomQuote;
-
         // --- АНИМАЦИЯ ТЕКСТА (typewriter) ---
         function typeWriter(element, text, speed=60) {
             let i = 0;
@@ -318,7 +285,6 @@
             const el = document.querySelector('.glitch');
             if(el) typeWriter(el, el.textContent, 35);
         });
-
         // --- ПЛАВАЮЩИЕ ЭЛЕМЕНТЫ ---
         setInterval(() => {
             const float = document.createElement('div');
@@ -339,12 +305,10 @@
             }, 50);
             setTimeout(() => float.remove(), 5200);
         }, 1200);
-
         // --- СЕКРЕТНАЯ ЗОНА ПО ПАРОЛЮ ---
         function openSecretZone() {
             document.getElementById('secretZone').style.display = 'flex';
         }
-
         // --- ПАСХАЛЬНОЕ ЯЙЦО: ПОЕЗД МАТРИЦЫ ---
         function matrixTrainEasterEgg() {
             // Создаём контейнер для анимации
@@ -372,7 +336,6 @@
                 <button id="matrixTrainClose" class="start-btn" style="position:absolute;top:2rem;right:2rem;">Закрыть</button>
             `;
             document.body.appendChild(trainModal);
-
             // Анимация поезда
             const trainFrames = [
 `      _________
@@ -412,7 +375,6 @@
                 }
             }
             animateTrain();
-
             // Фоновая матрица
             const canvas = document.getElementById('matrixTrainBg');
             const ctx = canvas.getContext('2d');
@@ -436,13 +398,11 @@
                 }
             }
             drawMatrixBg();
-
             // Кнопка закрытия
             document.getElementById('matrixTrainClose').onclick = () => {
                 document.body.removeChild(trainModal);
             };
         }
-
         // Добавим команду в терминал
         const origHandleTerminal = handleTerminal;
         window.handleTerminal = function(event) {

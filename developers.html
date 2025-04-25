@@ -22,11 +22,9 @@
             </ul>
         </nav>
     </header>
-
     <main>
         <section class="developers">
             <h2>Наша команда <span style="font-size:1.5rem;">👨‍💻✨</span></h2>
-            
             <div class="team-description">
                 <p>Мы — команда энтузиастов, объединённых любовью к математике и образовательным технологиям.<br>
                 <span style="color:#00ffea;font-weight:bold;">Наша цель</span> — сделать изучение математики <span style="color:#ffea00;">увлекательным</span> и <span style="color:#ff00aa;">доступным</span> для всех.<br>
@@ -34,7 +32,6 @@
                 <span style="font-size:1.3rem;">🚀🧠🔐</span>
                 </p>
             </div>
-            
             <div class="developer-card">
                 <div class="developer-inner">
                     <div class="developer-front">
@@ -59,7 +56,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="developer-card">
                 <div class="developer-inner">
                     <div class="developer-front">
@@ -84,7 +80,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="developer-card">
                 <div class="developer-inner">
                     <div class="developer-front">
@@ -111,7 +106,6 @@
             </div>
         </section>
     </main>
-
     <script>
         // Matrix effect
         const canvas = document.getElementById('matrix');
@@ -122,17 +116,14 @@
         const fontSize = 14;
         const columns = canvas.width / fontSize;
         const drops = [];
-
         for (let x = 0; x < columns; x++) {
             drops[x] = 1;
         }
-
         function draw() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#00ff00';
             ctx.font = fontSize + 'px monospace';
-
             for (let i = 0; i < drops.length; i++) {
                 const text = chars.charAt(Math.floor(Math.random() * chars.length));
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -142,9 +133,7 @@
                 drops[i]++;
             }
         }
-
         setInterval(draw, 33);
-
         // Animations and interactivity
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.querySelector('header');
@@ -153,7 +142,6 @@
                 header.style.opacity = '1';
                 header.style.transition = 'opacity 0.8s ease-in-out';
             }, 200);
-
             const cards = document.querySelectorAll('.developer-card');
             cards.forEach((card, index) => {
                 card.style.opacity = '0';
@@ -164,7 +152,6 @@
                     card.style.transition = `opacity 0.5s ease-out ${index * 0.2}s, transform 0.5s ease-out ${index * 0.2}s`;
                 }, 200);
             });
-
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     e.preventDefault();
