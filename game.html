@@ -46,11 +46,30 @@
 </div>
 </header>
 <main>
+<!-- Неоновая рамка с картинкой старта -->
+<div style="
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+">
+  <div style="
+    border: 6px solid #00ff00;
+    border-radius: 24px;
+    box-shadow: 0 0 32px #00ff00, 0 0 16px #00ff00 inset;
+    background: #181f18;
+    padding: 1.5rem;
+    display: inline-block;
+    ">
+    <img src="images/start.png" alt="Старт" style="max-width:420px; width:100%; border-radius:18px; display:block;">
+  </div>
+  <button class="btn" style="margin-top: 1.5rem;" onclick="startPath()">Начать проникновение</button>
+</div>
 <!-- Сцена 1: Вступление -->
 <section class="scene" id="scene1">
-<h2>Пропавший гений</h2>
-<p>Профессор Логарифм, легенда математики, загадочным образом исчез. Его последний след ведёт в лабораторию "ZeroDivision". Вы — опытный хакер, призванный раскрыть правду. Перед вами запертая дверь, мигающий терминал и странные подсказки. Начните свою миссию!</p>
-<button class="btn" onclick="startPath()">Начать проникновение</button>
+  <h2>Пропавший гений</h2>
+  <p>Профессор Логарифм, легенда математики, загадочным образом исчез. Его последний след ведёт в лабораторию "ZeroDivision". Вы — опытный хакер, призванный раскрыть правду. Перед вами запертая дверь, мигающий терминал и странные подсказки. Начните свою миссию!</p>
 </section>
 
 <!-- Фаза 1: Поиск доступа -->
@@ -101,6 +120,8 @@
   <div class="wire-point pos-right6" id="right6" data-equation="Math.pow(2, 3)" onmouseup="stopDraggingWire(this)">2³</div>
   
   <canvas class="wire-canvas" id="wireCanvas"></canvas>
+  <!-- Удалите или закомментируйте следующую строку -->
+  <!-- <img src="images/Things_My_Dick_Does_049.png" alt="bottom" class="wire-bottom-image"> -->
 </div>
 <p id="result2" class="hidden"></p>
 <button class="btn back-btn" onclick="goBack(2)">Назад</button>
@@ -145,12 +166,27 @@
 
 <!-- Фаза 5 – Секретный терминал -->
 <section class="scene hidden" id="path5">
-<h2>Фаза 5 – Секретный терминал</h2>
-<p>Вы попали в секретную комнату. Терминал требует код доступа. На записке написано: "Профессор здесь". Решите, как действовать:</p>
-<button class="btn" onclick="chooseAction(5, 'hack')">Взломать терминал</button>
-<button class="btn" onclick="chooseAction(5, 'search')">Искать другой путь</button>
-<p id="result5" class="hidden"></p>
-<button class="btn back-btn" onclick="goBack(5)">Назад</button>
+  <h2>Фаза 5 – Секретный терминал</h2>
+  <div style="display:flex; flex-direction:column; align-items:center; margin-bottom:2rem;">
+    <div style="
+      border: 6px solid #00ff00;
+      border-radius: 24px;
+      box-shadow: 0 0 32px #00ff00, 0 0 16px #00ff00 inset;
+      background: #181f18;
+      padding: 1.5rem;
+      display: inline-block;
+      ">
+      <img src="images/Room1.png" alt="Секретная комната" style="max-width:420px; width:100%; border-radius:18px; display:block;">
+    </div>
+    <div class="neon-caption" style="margin-top:1.2rem;">
+      <strong>Вы попали в секретную комнату</strong>
+    </div>
+  </div>
+  <p>Терминал требует код доступа. На записке написано: "Профессор здесь". Решите, как действовать:</p>
+  <button class="btn" onclick="chooseAction(5, 'hack')">Взломать терминал</button>
+  <button class="btn" onclick="chooseAction(5, 'search')">Искать другой путь</button>
+  <p id="result5" class="hidden"></p>
+  <button class="btn back-btn" onclick="goBack(5)">Назад</button>
 </section>
 
 <!-- Фаза 6: Финальный выбор -->
@@ -159,15 +195,33 @@
 <p id="finalText"></p>
 <button class="btn" id="choice6a" onclick="chooseAction(6, 'save')"></button>
 <button class="btn" id="choice6b" onclick="chooseAction(6, 'leave')"></button>
-<p id="result6" class="hidden">Новый элемент найден под терминалом! Этот ключ (🔑) равен 25. Перетащите его в правильную скважину, чтобы открыть доступ.</p>
+<p id="result6" class="hidden">
+  Найден ключ под терминалом! На ключе (🔑) есть цифра "5". Перетащите его в правильную скважину, чтобы открыть доступ.
+</p>
 <div class="inventory-item draggable hidden" id="keyCenter" draggable="true" ondragstart="drag(event)">
   🔑
 </div>
-<div id="keyDropzonesContainer" class="hidden">
-  <div class="dropzone key-drop" data-answer="25">5×5</div>
-  <div class="dropzone key-drop" data-answer="20">10+10</div>
-  <div class="dropzone key-drop" data-answer="26">30-4</div>
-  <div class="dropzone key-drop" data-answer="16.67">50/3</div>
+<div id="keyDropzonesContainer" class="hidden" style="display: flex; flex-direction: column; align-items: center; gap: 18px; margin-top: 24px; width: 100%;">
+  <div class="example-lock">
+    <span class="example-text">5²x−4 = 49²−x   </span>
+    <span class="eq-sign">=</span>
+    <span class="dropzone key-drop" data-answer="2" title="Перетащите ключ сюда"><span class="lock-emoji">🔒</span></span>
+  </div>
+  <div class="example-lock">
+    <span class="example-text">√(x + 1) + 3    </span>
+    <span class="eq-sign">=</span>
+    <span class="dropzone key-drop" data-answer="5" title="Перетащите ключ сюда"><span class="lock-emoji">🔒</span></span>
+  </div>
+  <div class="example-lock">
+    <span class="example-text">3(7x – 1) – 6(5x + 2)</span>
+    <span class="eq-sign">=</span>
+    <span class="dropzone key-drop" data-answer="3" title="Перетащите ключ сюда"><span class="lock-emoji">🔒</span></span>
+  </div>
+  <div class="example-lock">
+    <span class="example-text">log₃(x² + 72)   </span>
+    <span class="eq-sign">=</span>
+    <span class="dropzone key-drop" data-answer="4" title="Перетащите ключ сюда"><span class="lock-emoji">🔒</span></span>
+  </div>
 </div>
 <p id="attemptsInfo"></p>
 <div id="extraChallenge" class="hidden">
@@ -231,7 +285,7 @@
 
 <script>
 let currentStep = 1;
-let wiresConnected = {};
+let wiresConnected = {}; // { v1: { ...wire, targetId: 'right3' }, ... }
 let activeConnection = null;
 let choicesMade = {};
 let keyAttempts = 3;
@@ -332,20 +386,23 @@ let mouseY = 0;
 let wireStartX = 0;
 let wireStartY = 0;
 
+let ropeSim = null;
+let ropeAnimFrame = null; // Новый флаг для requestAnimationFrame
+
 function startDraggingWire(id, startPoint, event) {
     event.preventDefault();
-    
+
     // Проверяем, существует ли уже провод
     if (wiresConnected[id]) {
         const rect = wireCanvas.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
         const clickY = event.clientY - rect.top;
         const wire = wiresConnected[id];
-        
+
         // Проверяем расстояние до обоих концов провода
         const startDist = Math.sqrt((clickX - wire.startX) ** 2 + (clickY - wire.startY) ** 2);
         const endDist = Math.sqrt((clickX - wire.endX) ** 2 + (clickY - wire.endY) ** 2);
-        
+
         // Если клик близко к любому концу провода - отсоединяем его
         if (startDist < 40 || endDist < 40) {
             delete wiresConnected[id];
@@ -353,25 +410,62 @@ function startDraggingWire(id, startPoint, event) {
             return;
         }
     }
-    
+
     isDragging = true;
     const rect = wireCanvas.getBoundingClientRect();
     const startRect = startPoint.getBoundingClientRect();
-    
+
     wireStartX = startRect.left - rect.left + startRect.width / 2;
     wireStartY = startRect.top - rect.top + startRect.height / 2;
-    
+
     currentWire = {
         id: id,
         startX: wireStartX,
         startY: wireStartY,
         startPoint: startPoint
     };
-    
+
     startPoint.classList.add('active');
-    
+
     document.addEventListener('mousemove', handleWireDrag);
     document.addEventListener('mouseup', handleWireRelease);
+
+    startRopeAnimation();
+}
+
+// Для правых кружков:
+document.querySelectorAll('.wire-point[id^="right"]').forEach(point => {
+    point.addEventListener('mousedown', function(event) {
+        // Найти левый кружок, соединённый с этим правым
+        for (let key in wiresConnected) {
+            if (wiresConnected[key] && wiresConnected[key].targetId === this.id) {
+                // Проверяем расстояние до конца провода
+                const rect = wireCanvas.getBoundingClientRect();
+                const clickX = event.clientX - rect.left;
+                const clickY = event.clientY - rect.top;
+                const wire = wiresConnected[key];
+                const endDist = Math.sqrt((clickX - wire.endX) ** 2 + (clickY - wire.endY) ** 2);
+                if (endDist < 40) {
+                    delete wiresConnected[key];
+                    drawWires();
+                    return;
+                }
+            }
+        }
+    });
+});
+
+function startRopeAnimation() {
+    if (ropeAnimFrame) return;
+    function animate() {
+        if (isDragging && currentWire) {
+            drawWires();
+            ropeAnimFrame = requestAnimationFrame(animate);
+        } else {
+            ropeAnimFrame = null;
+        }
+    }
+    ropeAnimFrame = requestAnimationFrame(animate);
 }
 
 function handleWireDrag(event) {
@@ -382,49 +476,50 @@ function handleWireDrag(event) {
   const rect = wireCanvas.getBoundingClientRect();
   mouseX = event.clientX - rect.left;
   mouseY = event.clientY - rect.top;
-  
-  drawWires();
 }
 
 function handleWireRelease(event) {
   if (!isDragging || !currentWire) return;
-  
   event.preventDefault();
-  
+
   const rect = wireCanvas.getBoundingClientRect();
   const endPoint = document.elementFromPoint(event.clientX, event.clientY);
-  
+
+  // Проверяем, что отпустили на правом кружке
   if (endPoint && endPoint.classList.contains('wire-point') && endPoint.id.startsWith('right')) {
     const endRect = endPoint.getBoundingClientRect();
-    const equation = endPoint.dataset.equation;
-    const computed = eval(equation);
-    const startValue = parseInt(currentWire.startPoint.textContent);
-    
-    if (startValue === computed) {
-      wiresConnected[currentWire.id] = {
-        startX: currentWire.startX,
-        startY: currentWire.startY,
-        endX: endRect.left - rect.left + endRect.width / 2,
-        endY: endRect.top - rect.top + endRect.height / 2,
-        controlPoint1X: 0,
-        controlPoint1Y: 0,
-        controlPoint2X: 0,
-        controlPoint2Y: 0
-      };
-      updateWirePhysics(wiresConnected[currentWire.id]);
-      checkWires();
+    // Удаляем старое соединение с этим правым кружком, если оно есть
+    for (let key in wiresConnected) {
+      if (wiresConnected[key] && wiresConnected[key].targetId === endPoint.id) {
+        delete wiresConnected[key];
+      }
     }
+    wiresConnected[currentWire.id] = {
+      startX: currentWire.startX,
+      startY: currentWire.startY,
+      endX: endRect.left - rect.left + endRect.width / 2,
+      endY: endRect.top - rect.top + endRect.height / 2,
+      controlPoint1X: 0,
+      controlPoint1Y: 0,
+      controlPoint2X: 0,
+      controlPoint2Y: 0,
+      targetId: endPoint.id // сохраняем id правого кружка
+    };
+    updateWirePhysics(wiresConnected[currentWire.id]);
+    checkWires();
   }
-  
+
   // Очищаем состояние
   currentWire.startPoint.classList.remove('active');
   isDragging = false;
   currentWire = null;
-  
-  // Удаляем слушатели
+  ropeSim = null;
+  if (ropeAnimFrame) {
+    cancelAnimationFrame(ropeAnimFrame);
+    ropeAnimFrame = null;
+  }
   document.removeEventListener('mousemove', handleWireDrag);
   document.removeEventListener('mouseup', handleWireRelease);
-  
   drawWires();
 }
 
@@ -445,8 +540,6 @@ function updateWirePhysics(wire) {
 }
 
 // --- Новый блок: физика верёвки для временного провода ---
-let ropeSim = null;
-
 function createRopeSim(startX, startY, endX, endY, segments = 16) {
     const points = [];
     for (let i = 0; i <= segments; i++) {
@@ -519,7 +612,7 @@ function drawWirePath(wire, isTemp = false) {
         }
     } else {
         // Обычная кривая Безье для закреплённых проводов
-        wireCtx.moveTo(wire.startX, wireStartY);
+        wireCtx.moveTo(wire.startX, wire.startY);
         wireCtx.bezierCurveTo(
             wire.controlPoint1X, wire.controlPoint1Y,
             wire.controlPoint2X, wire.controlPoint2Y,
@@ -567,24 +660,15 @@ function checkWires() {
     ];
 
     let allCorrect = requiredConnections.every(([wireId, targetId]) => {
-        if (!wiresConnected[wireId]) return false;
-        const targetElement = document.getElementById(targetId);
-        const targetRect = targetElement.getBoundingClientRect();
-        const wireRect = wireCanvas.getBoundingClientRect();
-        const endX = targetRect.left - wireRect.left + targetRect.width / 2;
-        const endY = targetRect.top - wireRect.top + targetRect.height / 2;
-        
-        return Math.abs(wiresConnected[wireId].endX - endX) < 10 && 
-               Math.abs(wiresConnected[wireId].endY - endY) < 10;
+        return wiresConnected[wireId] && wiresConnected[wireId].targetId === targetId;
     });
 
-    if (allCorrect) {
+    if (allCorrect && Object.keys(wiresConnected).length === 6) {
         setTimeout(() => {
             document.getElementById('wireTask').style.boxShadow = '0 0 20px #00ff00';
             document.getElementById('result2').textContent = "Схема собрана правильно! Можно двигаться дальше.";
             document.getElementById('result2').className = "";
-            
-            // Добавляем кнопку "Продолжить"
+
             if (!document.getElementById('continueBtn')) {
                 const continueBtn = document.createElement('button');
                 continueBtn.id = 'continueBtn';
@@ -594,6 +678,9 @@ function checkWires() {
                 document.getElementById('result2').appendChild(continueBtn);
             }
         }, 500);
+    } else {
+        document.getElementById('wireTask').style.boxShadow = '';
+        document.getElementById('result2').textContent = '';
     }
 }
 
@@ -652,30 +739,41 @@ event.dataTransfer.setData("text", event.target.id);
 }
 
 function setupKeyDropzones() {
-document.querySelectorAll('.key-drop').forEach(dropzone => {
-  dropzone.ondragover = (event) => event.preventDefault();
-  dropzone.ondrop = function(event) {
-    event.preventDefault();
-    let itemId = event.dataTransfer.getData("text");
-    if (itemId === 'keyCenter') {
-      if (this.dataset.answer === "25") {
-        this.innerHTML = "Ключ вставлен!";
-        showEnding(choicesMade[5] === 'hack' ? (choicesMade[6] === 'save' ? 1 : 3) : 2);
-      } else {
-        keyAttempts--;
-        updateAttemptsInfo();
-        if (keyAttempts <= 0) {
-          alert("Попытки исчерпаны! Начните финальную фазу заново.");
-          keyAttempts = 3;
-          updateAttemptsInfo();
-          document.getElementById('keyCenter').style.display = 'block';
+  document.querySelectorAll('.key-drop').forEach(dropzone => {
+    dropzone.ondragover = (event) => {
+      event.preventDefault();
+      dropzone.classList.add('dragover');
+    };
+    dropzone.ondragenter = (event) => {
+      event.preventDefault();
+      dropzone.classList.add('dragover');
+    };
+    dropzone.ondragleave = () => {
+      dropzone.classList.remove('dragover');
+    };
+    dropzone.ondrop = function(event) {
+      event.preventDefault();
+      dropzone.classList.remove('dragover');
+      let itemId = event.dataTransfer.getData("text");
+      if (itemId === 'keyCenter') {
+        if (this.dataset.answer === "5") {
+          this.innerHTML = "🔓";
+          showEnding(choicesMade[5] === 'hack' ? (choicesMade[6] === 'save' ? 1 : 3) : 2);
         } else {
-          alert("Неправильная скважина! Осталось попыток: " + keyAttempts);
+          keyAttempts--;
+          updateAttemptsInfo();
+          if (keyAttempts <= 0) {
+            alert("Попытки исчерпаны! Начните финальную фазу заново.");
+            keyAttempts = 3;
+            updateAttemptsInfo();
+            document.getElementById('keyCenter').style.display = 'block';
+          } else {
+            alert("Неправильная скважина! Осталось попыток: " + keyAttempts);
+          }
         }
       }
-    }
-  };
-});
+    };
+  });
 }
 
 function addChoices(step) {
@@ -978,7 +1076,6 @@ function restartBlinkGame() {
 startBlinkGame();
 }
 </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'930a4f1c0987b03f',t:'MTc0NDcwODIxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'930a70d04dc9adc3',t:'MTc0NDcwOTU5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9316d42f8c4f53b2',t:'MTc0NDgzOTQ5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'930a4f1c0987b03f',t:'MTc0NDcwODIxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'930a70d04dc9adc3',t:'MTc0NDcwOTU5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9316d42f8c4f53b2',t:'MTc0NDgzOTQ5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>

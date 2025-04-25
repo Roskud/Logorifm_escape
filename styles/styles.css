@@ -1682,3 +1682,51 @@ main.game {
     background: #222;
     box-shadow: 0 0 32px #00ffea, 0 0 16px #00ff00 inset;
 }
+
+.example-lock {
+  display: flex;
+  align-items: center;
+  background: #181f18;
+  border: 3px solid #00ff00;
+  border-radius: 18px;
+  padding: 18px 28px;
+  font-size: 1.35em;
+  min-width: 320px;
+  justify-content: center;
+  box-shadow: 0 0 16px #00ff00, 0 0 8px #00ffea inset;
+  margin: 0 8px;
+  gap: 14px;
+  transition: box-shadow 0.2s;
+}
+.example-lock .example-text {
+  color: #00ffea;
+  font-family: 'Courier New', monospace;
+  font-size: 1.1em;
+  white-space: nowrap;
+}
+.example-lock .eq-sign {
+  color: #00ff00;
+  font-size: 1.3em;
+  margin: 0 8px;
+}
+.example-lock .dropzone.key-drop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  font-size: 2em;
+  background: #101510;
+  border: 2px dashed #00ffea;
+  border-radius: 50%;
+  margin-left: 4px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.example-lock .dropzone.key-drop.dragover {
+  background: #00ff00;
+  border-color: #fff;
+}
+.example-lock .lock-emoji {
+  pointer-events: none;
+}
