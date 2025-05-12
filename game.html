@@ -31,6 +31,25 @@
 <title>Тайна Лаборатории Логарифма: Хакерская миссия</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="styles/styles.css">
+<style>
+.wire-point.wire-rect {
+    width: 260px;
+    min-height: 60px;
+    border-radius: 18px;
+    background: #181f18;
+    color: #00ffea;
+    box-shadow: 0 0 10px #00ffea;
+    font-size: 1.15em;
+    padding: 10px 18px;
+    text-align: center;
+    border: 3px solid #00ffea;
+    transition: box-shadow 0.3s, border-color 0.3s;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
 </head>
 <body>
 <canvas class="matrix" id="matrix"></canvas>
@@ -42,7 +61,7 @@
 </header>
 <main>
 
-<div style="
+<div id="startBlock" style="
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -94,22 +113,44 @@
 
 <section class="scene hidden" id="path2">
 <h2>Фаза 2 – Соединение проводов</h2>
-<p>На панели слева — числа, справа — математические выражения. Соедините их проводами так, чтобы каждое число соответствовало результату выражения. Провода можно переподключать, пока все пары не будут правильными.</p>
+<p>На панели слева — числа-ответы, справа — прямоугольники с примерами. Перетащите ответ к правильному примеру. Провода можно переподключать, пока все пары не будут правильными.</p>
 <div class="wire-task" id="wireTask">
 
-  <div class="wire-point pos-left1" id="left1" onmousedown="startDraggingWire('v1', this, event)" onmouseup="stopDraggingWire(this)">16</div>
-  <div class="wire-point pos-left2" id="left2" onmousedown="startDraggingWire('v2', this, event)" onmouseup="stopDraggingWire(this)">6</div>
-  <div class="wire-point pos-left3" id="left3" onmousedown="startDraggingWire('v3', this, event)" onmouseup="stopDraggingWire(this)">2</div>
-  <div class="wire-point pos-left4" id="left4" onmousedown="startDraggingWire('v4', this, event)" onmouseup="stopDraggingWire(this)">1</div>
-  <div class="wire-point pos-left5" id="left5" onmousedown="startDraggingWire('v5', this, event)" onmouseup="stopDraggingWire(this)">24</div>
-  <div class="wire-point pos-left6" id="left6" onmousedown="startDraggingWire('v6', this, event)" onmouseup="stopDraggingWire(this)">8</div>
+  <!-- Левая сторона: ответы -->
+  <div class="wire-point pos-left1" id="left1" onmousedown="startDraggingWire('v1', this, event)" onmouseup="stopDraggingWire(this)">3</div>
+  <div class="wire-point pos-left2" id="left2" onmousedown="startDraggingWire('v2', this, event)" onmouseup="stopDraggingWire(this)">4</div>
+  <div class="wire-point pos-left3" id="left3" onmousedown="startDraggingWire('v3', this, event)" onmouseup="stopDraggingWire(this)">121/3</div>
+  <div class="wire-point pos-left4" id="left4" onmousedown="startDraggingWire('v4', this, event)" onmouseup="stopDraggingWire(this)">-7</div>
+  <div class="wire-point pos-left5" id="left5" onmousedown="startDraggingWire('v5', this, event)" onmouseup="stopDraggingWire(this)">1</div>
+  <div class="wire-point pos-left6" id="left6" onmousedown="startDraggingWire('v6', this, event)" onmouseup="stopDraggingWire(this)">3.5</div>
 
-  <div class="wire-point pos-right1" id="right1" data-equation="Math.cos(0)" onmouseup="stopDraggingWire(this)">cos(0)</div>
-  <div class="wire-point pos-right2" id="right2" data-equation="Math.sqrt(4)" onmouseup="stopDraggingWire(this)">√4</div>
-  <div class="wire-point pos-right3" id="right3" data-equation="factorial(3)" onmouseup="stopDraggingWire(this)">3!</div>
-  <div class="wire-point pos-right4" id="right4" data-equation="Math.pow(2, 4)" onmouseup="stopDraggingWire(this)">2⁴</div>
-  <div class="wire-point pos-right5" id="right5" data-equation="Math.pow(2, 3) * 3" onmouseup="stopDraggingWire(this)">2³×3</div>
-  <div class="wire-point pos-right6" id="right6" data-equation="Math.pow(2, 3)" onmouseup="stopDraggingWire(this)">2³</div>
+  <!-- Правая сторона: примеры (прямоугольники, но wire-point!) -->
+  <div class="wire-point wire-rect pos-right1" id="right4" data-equation="3^(2x-1) = 27^(x+2)">
+    3^(2x-1)=27^(x+2)
+  </div>
+  <div class="wire-point wire-rect pos-right2" id="right1" data-equation="log₄(2x + 10) = 2">
+    log<sub>4</sub>(2x&nbsp;+&nbsp;10) = 2
+  </div>
+  <div class="wire-point wire-rect pos-right3" id="right6" data-equation="log₃(4x - 5) = 2">
+    log<sub>3</sub>(4x&nbsp;&minus;&nbsp;5) = 2
+  </div>
+  <div class="wire-point wire-rect pos-right4" id="right3" data-equation="∛(3x + 4) = 5">
+    &#8731;(3x&nbsp;+&nbsp;4) = 5
+  </div>
+  <div class="wire-point wire-rect pos-right5" id="right2" data-equation="2^(x-1) = 8">
+    2^(x-1) = 8
+  </div>
+  <div class="wire-point wire-rect pos-right6" id="right5" data-equation="(x² - 4)/(x + 2) = 3">
+    <span style="display:inline-block;vertical-align:middle;">
+      <span style="border-bottom:1px solid #00ffea;display:inline-block;padding:0 4px;">
+        x<sup>2</sup>&nbsp;&minus;&nbsp;4
+      </span><br>
+      <span style="display:inline-block;padding:0 4px;">
+        x&nbsp;+&nbsp;2
+      </span>
+    </span>
+    = 3
+  </div>
   <canvas class="wire-canvas" id="wireCanvas"></canvas>
 
 </div>
@@ -306,9 +347,12 @@ requestAnimationFrame(drawMatrix);
 }
 drawMatrix();
 function startPath() {
-document.getElementById('scene1').className = 'scene hidden';
-document.getElementById('path1').className = 'scene';
-currentStep = 1;
+  document.getElementById('scene1').className = 'scene hidden';
+  document.getElementById('path1').className = 'scene';
+  currentStep = 1;
+  // Скрыть стартовый блок
+  const startBlock = document.getElementById('startBlock');
+  if (startBlock) startBlock.style.display = 'none';
 }
 function goBack(step) {
 if (step === 1) {
@@ -437,13 +481,18 @@ function handleWireRelease(event) {
   if (!isDragging || !currentWire) return;
   event.preventDefault();
   const rect = wireCanvas.getBoundingClientRect();
-  const endPoint = document.elementFromPoint(event.clientX, event.clientY);
+  let endPoint = document.elementFromPoint(event.clientX, event.clientY);
 
-  if (endPoint && endPoint.classList.contains('wire-point') && endPoint.id.startsWith('right')) {
-    const endRect = endPoint.getBoundingClientRect();
+  // Ищем родителя wire-point, если клик по вложенному элементу
+  let target = endPoint;
+  while (target && (!target.classList || !target.classList.contains('wire-point') || !target.id.startsWith('right'))) {
+      target = target.parentElement;
+  }
+  if (target && target.classList.contains('wire-point') && target.id.startsWith('right')) {
+    const endRect = target.getBoundingClientRect();
 
     for (let key in wiresConnected) {
-      if (wiresConnected[key] && wiresConnected[key].targetId === endPoint.id) {
+      if (wiresConnected[key] && wiresConnected[key].targetId === target.id) {
         delete wiresConnected[key];
       }
     }
@@ -456,7 +505,7 @@ function handleWireRelease(event) {
       controlPoint1Y: 0,
       controlPoint2X: 0,
       controlPoint2Y: 0,
-      targetId: endPoint.id 
+      targetId: target.id 
     };
     updateWirePhysics(wiresConnected[currentWire.id]);
     checkWires();
@@ -588,12 +637,12 @@ function drawWires() {
 }
 function checkWires() {
     const requiredConnections = [
-        ['v1', 'right4'], 
-        ['v2', 'right3'], 
-        ['v3', 'right2'], 
-        ['v4', 'right1'], 
-        ['v5', 'right5'], 
-        ['v6', 'right6']  
+        ['v1', 'right1'], // 3 → log₄(2x + 10) = 2
+        ['v2', 'right2'], // 4 → 2^(x-1) = 8
+        ['v3', 'right3'], // 7 → ∛(3x + 4) = 5
+        ['v4', 'right4'], // -7 → 3^(2x-1) = 27^(x+2)
+        ['v5', 'right5'], // 1 → (x² - 4)/(x + 2) = 3
+        ['v6', 'right6']  // 3.5 → log₃(4x - 5) = 2
     ];
     let allCorrect = requiredConnections.every(([wireId, targetId]) => {
         return wiresConnected[wireId] && wiresConnected[wireId].targetId === targetId;

@@ -1399,12 +1399,34 @@ main.game {
 .pos-left5 { top: 445px; left: 60px; }
 .pos-left6 { top: 545px; left: 60px; }
 
-.pos-right1 { top: 45px; left: 960px; }
-.pos-right2 { top: 145px; left: 960px; }
-.pos-right3 { top: 245px; left: 960px; }
-.pos-right4 { top: 345px; left: 960px; }
-.pos-right5 { top: 445px; left: 960px; }
-.pos-right6 { top: 545px; left: 960px; }
+.pos-right1 { top: 45px; left: 900px; }
+.pos-right2 { top: 145px; left: 900px; }
+.pos-right3 { top: 245px; left: 900px; }
+.pos-right4 { top: 345px; left: 900px; }
+.pos-right5 { top: 445px; left: 900px; }
+.pos-right6 { top: 545px; left: 900px; }
+
+.wire-rect {
+    width: 260px;
+    min-height: 60px;
+    border-radius: 18px;
+    background: #181f18;
+    color: #00ffea;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    font-weight: bold;
+    z-index: 2;
+    user-select: none;
+    box-shadow: 0 0 10px #00ffea;
+    font-size: 1.15em;
+    padding: 10px 18px;
+    text-align: center;
+    border: 3px solid #00ffea;
+    transition: box-shadow 0.3s, border-color 0.3s;
+}
 
 #wireCanvas,
 .wire-canvas {
