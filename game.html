@@ -1,28 +1,3 @@
-<script type="text/javascript">
-  var gk_isXlsx = false;
-  var gk_xlsxFileLookup = {};
-  var gk_fileData = {};
-  function loadFileData(filename) {
-  if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-      try {
-          var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-          var firstSheetName = workbook.SheetNames[0];
-          var worksheet = workbook.Sheets[firstSheetName];
-          var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-          var filteredData = jsonData.filter(row =>
-              row.some(cell => cell !== '' && cell !== null && cell !== undefined)
-          );
-          var csv = XLSX.utils.aoa_to_sheet(filteredData);
-          csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-          return csv;
-      } catch (e) {
-          console.error(e);
-          return "";
-      }
-  }
-  return gk_fileData[filename] || "";
-  }
-</script>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -32,32 +7,73 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="styles/styles.css">
 <style>
-.wire-point.wire-rect {
-    width: 260px;
-    min-height: 60px;
-    border-radius: 18px;
-    background: #181f18;
-    color: #00ffea;
-    box-shadow: 0 0 10px #00ffea;
-    font-size: 1.15em;
-    padding: 10px 18px;
-    text-align: center;
-    border: 3px solid #00ffea;
-    transition: box-shadow 0.3s, border-color 0.3s;
-    height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.logo {
+  max-width: 180px;
+  margin-bottom: 0.7rem;
+}
+.main-title {
+  color: #00ff00;
+  font-size: 2.1em;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow: 0 0 12px #00ff00;
+  margin: 0;
+  text-align: center;
+}
+.morse-word-block {
+  min-width: 180px;
+  max-width: 320px;
+  margin: 0 auto;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+.morse-word-block.error input {
+  border: 2px solid #ff3333 !important;
+  background: #2a1818 !important;
+  color: #ff3333 !important;
+  animation: shake 0.3s;
+}
+@keyframes shake {
+  0% { transform: translateX(0);}
+  25% { transform: translateX(-5px);}
+  50% { transform: translateX(5px);}
+  75% { transform: translateX(-5px);}
+  100% { transform: translateX(0);}
+}
+.scene {
+  background: rgba(44,44,44,0.98) !important;
+  box-shadow: 0 0 24px #00ff00;
+  padding: 2.2rem 1.5rem 2.5rem 1.5rem !important;
+  max-width: 980px !important;
+  margin: 3rem auto 2rem auto !important;
+  position: relative;
+}
+body {
+  background: #1a1a1a;
+}
+canvas.matrix {
+  position: fixed !important;
+  top: 0; left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: -1;
+  opacity: 0.22;
+  pointer-events: none;
 }
 </style>
 </head>
 <body>
 <canvas class="matrix" id="matrix"></canvas>
 <header>
-<div class="header-content">
-<img src="https://i.postimg.cc/q74Fdnpr/IMG-20250415-113958.png" alt="Logo" class="logo">
-<h1>Тайна Лаборатории Логарифма: Хакерская миссия</h1>
-</div>
+  <img src="https://i.postimg.cc/q74Fdnpr/IMG-20250415-113958.png" alt="Logo" class="logo logo-fixed">
+  <div class="header-content">
+    <h1 class="main-title">Тайна Лаборатории Логарифма: Хакерская миссия</h1>
+  </div>
 </header>
 <main>
 
@@ -115,35 +131,32 @@
 <h2>Фаза 2 – Соединение проводов</h2>
 <p>На панели слева — числа-ответы, справа — прямоугольники с примерами. Перетащите ответ к правильному примеру. Провода можно переподключать, пока все пары не будут правильными.</p>
 <div class="wire-task" id="wireTask">
-
-  <!-- Левая сторона: ответы -->
-  <div class="wire-point pos-left1" id="left1" onmousedown="startDraggingWire('v1', this, event)" onmouseup="stopDraggingWire(this)">3</div>
-  <div class="wire-point pos-left2" id="left2" onmousedown="startDraggingWire('v2', this, event)" onmouseup="stopDraggingWire(this)">4</div>
-  <div class="wire-point pos-left3" id="left3" onmousedown="startDraggingWire('v3', this, event)" onmouseup="stopDraggingWire(this)">121/3</div>
-  <div class="wire-point pos-left4" id="left4" onmousedown="startDraggingWire('v4', this, event)" onmouseup="stopDraggingWire(this)">-7</div>
-  <div class="wire-point pos-left5" id="left5" onmousedown="startDraggingWire('v5', this, event)" onmouseup="stopDraggingWire(this)">1</div>
-  <div class="wire-point pos-left6" id="left6" onmousedown="startDraggingWire('v6', this, event)" onmouseup="stopDraggingWire(this)">3.5</div>
-
-  <!-- Правая сторона: примеры (прямоугольники, но wire-point!) -->
-  <div class="wire-point wire-rect pos-right1" id="right4" data-equation="3^(2x-1) = 27^(x+2)">
+  <!-- Левая сторона: примеры (тянем отсюда) -->
+  <div class="wire-point wire-rect pos-left1" id="left1" data-equation="3^(2x-1) = 27^(x+2)"
+       onmousedown="startDraggingWire('left1', this, event)" onmouseup="stopDraggingWire(this)">
     3^(2x-1)=27^(x+2)
   </div>
-  <div class="wire-point wire-rect pos-right2" id="right1" data-equation="log₄(2x + 10) = 2">
+  <div class="wire-point wire-rect pos-left2" id="left2" data-equation="log₄(2x + 10) = 2"
+       onmousedown="startDraggingWire('left2', this, event)" onmouseup="stopDraggingWire(this)">
     log<sub>4</sub>(2x&nbsp;+&nbsp;10) = 2
   </div>
-  <div class="wire-point wire-rect pos-right3" id="right6" data-equation="log₃(4x - 5) = 2">
+  <div class="wire-point wire-rect pos-left3" id="left3" data-equation="log₃(4x - 5) = 2"
+       onmousedown="startDraggingWire('left3', this, event)" onmouseup="stopDraggingWire(this)">
     log<sub>3</sub>(4x&nbsp;&minus;&nbsp;5) = 2
   </div>
-  <div class="wire-point wire-rect pos-right4" id="right3" data-equation="∛(3x + 4) = 5">
+  <div class="wire-point wire-rect pos-left4" id="left4" data-equation="∛(3x + 4) = 5"
+       onmousedown="startDraggingWire('left4', this, event)" onmouseup="stopDraggingWire(this)">
     &#8731;(3x&nbsp;+&nbsp;4) = 5
   </div>
-  <div class="wire-point wire-rect pos-right5" id="right2" data-equation="2^(x-1) = 8">
+  <div class="wire-point wire-rect pos-left5" id="left5" data-equation="2^(x-1) = 8"
+       onmousedown="startDraggingWire('left5', this, event)" onmouseup="stopDraggingWire(this)">
     2^(x-1) = 8
   </div>
-  <div class="wire-point wire-rect pos-right6" id="right5" data-equation="(x² - 4)/(x + 2) = 3">
+  <div class="wire-point wire-rect pos-left6" id="left6" data-equation="(x² - 4)/(x + 2) = 3"
+       onmousedown="startDraggingWire('left6', this, event)" onmouseup="stopDraggingWire(this)">
     <span style="display:inline-block;vertical-align:middle;">
       <span style="border-bottom:1px solid #00ffea;display:inline-block;padding:0 4px;">
-        x<sup>2</sup>&nbsp;&minus;&nbsp;4
+        x<sup>2</sup>&nbsp;−&nbsp;4
       </span><br>
       <span style="display:inline-block;padding:0 4px;">
         x&nbsp;+&nbsp;2
@@ -151,8 +164,16 @@
     </span>
     = 3
   </div>
-  <canvas class="wire-canvas" id="wireCanvas"></canvas>
 
+  <!-- Правая сторона: ответы (теперь сюда тянем) -->
+  <div class="wire-point pos-right1" id="right1">3</div>
+  <div class="wire-point pos-right2" id="right2">4</div>
+  <div class="wire-point pos-right3" id="right3">121/3</div>
+  <div class="wire-point pos-right4" id="right4">-7</div>
+  <div class="wire-point pos-right5" id="right5">5</div>
+  <div class="wire-point pos-right6" id="right6">3.5</div>
+
+  <canvas class="wire-canvas" id="wireCanvas"></canvas>
 </div>
 <p id="result2" class="hidden"></p>
 <button class="btn back-btn" onclick="goBack(2)">Назад</button>
@@ -175,44 +196,91 @@
   <button class="btn back-btn" onclick="goBack(3)">Назад</button>
 </section>
 
-<section class="scene hidden" id="path4">
-  <h2>Фаза 4 – Шифр</h2>
-  <div style="display:flex; flex-direction:column; align-items:center;">
-    <img src="images/h.jpg" alt="Подсказка" class="neon-image big-image">
-    <div class="neon-caption">
-      <strong>разгадайте шифр на мониторе и введите правильный ответ к фразе:</strong>
-      <br>
-      <span style="font-size:1.25em; color:#00ffea; margin-top:0.7em; display:inline-block;">"лпе мпдбсйхнб"</span>
+<section class="scene hidden" id="path4" style="max-width: 980px; margin: 3rem auto 2rem auto; padding: 2.2rem 1.5rem 2.5rem 1.5rem; position:relative; background:rgba(44,44,44,0.98); box-shadow:0 0 24px #00ff00;">
+  <h2 style="margin-top:0;">Фаза 4 – Морзянка</h2>
+  <p style="margin-bottom:1.5rem;">Перед вами зашифрованное сообщение на русском языке, написанное азбукой Морзе. Используйте таблицу слева для расшифровки. Введите каждое слово в отдельное поле справа и нажмите "Ответить".</p>
+  <div style="display:flex;justify-content:center;align-items:flex-start;gap:38px;flex-wrap:nowrap;">
+    <!-- Вместо алфавита — картинка -->
+    <div style="background:#101510;border-radius:18px;box-shadow:0 0 32px #00ff00,0 0 16px #00ff00 inset;padding:1.5rem 1.2rem 1.2rem 1.2rem;max-width:546px;min-width:481px;flex:0 0 507px;align-self:flex-start;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+      <div style="text-align:center;margin-bottom:0.7em;">
+        <span style="color:#00ffea;font-size:1.25em;font-weight:bold;letter-spacing:2px;text-shadow:0 0 8px #00ffea;">Азбука Морзе (русский алфавит)</span>
+      </div>
+      <img src="images/table-morza.png" alt="Таблица Морзе" style="max-width:540px;width:100%;border-radius:14px;box-shadow:0 0 16px #00ffea;">
+    </div>
+    <!-- Окошки для слов и шифры -->
+    <div style="display:flex;flex-direction:column;gap:1.1rem;min-width:260px;max-width:340px;flex:1 1 260px;">
+      <form id="morseForm" class="answer-form" onsubmit="return handleMorseForm(event)" style="flex-direction:column;gap:1.1rem;align-items:stretch;">
+        <div class="morse-word-block" style="background:#181f18;border-radius:14px;box-shadow:0 0 12px #00ffea inset;padding:0.7rem 0.7rem;">
+          <div style="color:#00ffea;font-size:1.1em;text-align:center;margin-bottom:0.2em;">
+            <strong>Слово 1:</strong>
+            <div style="margin-top:0.2em;font-family:'Cascadia Mono',monospace;letter-spacing:2px;">
+              –·– ·–– · ··· –  <!-- КВЕСТ -->
+            </div>
+          </div>
+          <input type="text" id="morseInput1" class="answer-input" placeholder="Слово 1..." autocomplete="off">
+        </div>
+        <div class="morse-word-block" style="background:#181f18;border-radius:14px;box-shadow:0 0 12px #00ffea inset;padding:0.7rem 0.7rem;">
+          <div style="color:#00ffea;font-size:1.1em;text-align:center;margin-bottom:0.2em;">
+            <strong>Слово 2:</strong>
+            <div style="margin-top:0.2em;font-family:'Cascadia Mono',monospace;letter-spacing:2px;">
+              ···· ·– –·– · ·–· –·––  <!-- СИСТЕМА -->
+            </div>
+          </div>
+          <input type="text" id="morseInput2" class="answer-input" placeholder="Слово 2..." autocomplete="off">
+        </div>
+        <div class="morse-word-block" style="background:#181f18;border-radius:14px;box-shadow:0 0 12px #00ffea inset;padding:0.7rem 0.7rem;">
+          <div style="color:#00ffea;font-size:1.1em;text-align:center;margin-bottom:0.2em;">
+            <strong>Слово 3:</strong>
+            <div style="margin-top:0.2em;font-family:'Cascadia Mono',monospace;letter-spacing:2px;">
+              –··· ·– –·– . –·–· –·–·  <!-- ХАКЕРЫ -->
+            </div>
+          </div>
+          <input type="text" id="morseInput3" class="answer-input" placeholder="Слово 3..." autocomplete="off">
+        </div>
+        <div class="morse-word-block" style="background:#181f18;border-radius:14px;box-shadow:0 0 12px #00ffea inset;padding:0.7rem 0.7rem;">
+          <div style="color:#00ffea;font-size:1.1em;text-align:center;margin-bottom:0.2em;">
+            <strong>Слово 4:</strong>
+            <div style="margin-top:0.2em;font-family:'Cascadia Mono',monospace;letter-spacing:2px;">
+              –·– ––– –··  <!-- код -->
+            </div>
+          </div>
+          <input type="text" id="morseInput4" class="answer-input" placeholder="Слово 4..." autocomplete="off">
+        </div>
+        <button type="submit" class="btn" style="margin-top:1.2rem;align-self:center;">Ответить</button>
+      </form>
+      <p id="resultMorse" class="hidden"></p>
     </div>
   </div>
-  <form id="cipherForm" class="answer-form" onsubmit="return handleCipherForm(event)">
-    <input type="text" id="cipherInput" class="answer-input" placeholder="Ваш ответ..." autocomplete="off">
-    <button type="submit" class="btn">Ответить</button>
-  </form>
-  <p id="result4" class="hidden"></p>
   <button class="btn back-btn" onclick="goBack(4)">Назад</button>
 </section>
 
 <section class="scene hidden" id="path5">
-  <h2>Фаза 5 – Секретный терминал</h2>
-  <div style="display:flex; flex-direction:column; align-items:center; margin-bottom:2rem;">
-    <div style="
-      border: 6px solid #00ff00;
-      border-radius: 24px;
-      box-shadow: 0 0 32px #00ff00, 0 0 16px #00ff00 inset;
-      background: #181f18;
-      padding: 1.5rem;
-      display: inline-block;
-      ">
-      <img src="images/Room1.png" alt="Секретная комната" style="max-width:420px; width:100%; border-radius:18px; display:block;">
-    </div>
-    <div class="neon-caption" style="margin-top:1.2rem;">
-      <strong>Вы попали в секретную комнату</strong>
+  <h2>Фаза 5 – Шифр Цезаря</h2>
+  <p>Расшифруйте сообщение:<br>
+    <strong style="color:#00ffea;font-size:1.2em;">лпе мпдбсйхнб</strong>
+  </p>
+  <form id="cipherForm" class="answer-form" onsubmit="return handleCipherForm(event)">
+    <input type="text" id="cipherInput" class="answer-input" placeholder="Ваш ответ..." autocomplete="off">
+    <button type="submit" class="btn">Ответить</button>
+  </form>
+  <div id="cipherHint" class="hidden" style="margin:1.5rem 0;text-align:center;">
+    <img src="images/h.jpg" alt="Подсказка" style="max-width:420px;width:100%;border-radius:12px;box-shadow:0 0 16px #00ffea;">
+    <div style="margin-top:1rem;color:#ffea00;font-size:1.1em;font-weight:bold;">
+      Похоже, вы нашли подсказку на одном из мониторов!
     </div>
   </div>
-  <p>Терминал требует код доступа. На записке написано: "Профессор здесь". Решите, как действовать:</p>
-  <button class="btn" onclick="chooseAction(5, 'hack')">Взломать терминал</button>
-  <button class="btn" onclick="chooseAction(5, 'search')">Искать другой путь</button>
+  <p id="cipherAttempts" style="color:#ffea00;font-weight:bold;text-align:center;"></p>
+  <p id="result4" class="hidden"></p>
+  <button class="btn back-btn" onclick="goBack(5)">Назад</button>
+</section>
+
+<section class="scene hidden" id="path5b">
+  <img src="images/Room1.png" alt="Лаборатория" style="max-width:420px;width:100%;border-radius:18px;display:block;margin:0 auto 1.5rem auto;">
+  <h2>Промежуточная фаза – Выбор</h2>
+  <p>Вы стоите перед сложным выбором:<br>
+  <strong>Оставить профессора в лаборатории или уйти с найденными документами?</strong></p>
+  <button class="btn" onclick="chooseAction(5, 'hack')">Спасти профессора</button>
+  <button class="btn" onclick="chooseAction(5, 'leave')">Уйти с документами</button>
   <p id="result5" class="hidden"></p>
   <button class="btn back-btn" onclick="goBack(5)">Назад</button>
 </section>
@@ -298,12 +366,6 @@
 <h2>Путь одиночки</h2>
 <img src="https://i.postimg.cc/HLNyLMqp/file-0000000048f461f88461417d7faf5243-conversation-id-67f90bca-1d9c-8012-90ff-ad1c6de7e000-message-i.png" alt="Failure Scene" class="ending-image">
 <p>Вы предпочли собственную безопасность, оставив профессора на милость лаборатории. "ZeroDivision" продолжает свои тёмные дела, а вы скрываетесь в тенях...</p>
-<button class="btn menu-btn" onclick="window.location.href='index.html'">Вернуться в главное меню</button>
-<button class="btn back-btn-red" onclick="goBackFromEnding()">Назад</button>
-</div>
-</main>
-
-<canvas id="confettiCanvas" class="effect-canvas"></canvas>
 <canvas id="rainCanvas" class="effect-canvas"></canvas>
 <script>
 let currentStep = 1;
@@ -311,6 +373,7 @@ let wiresConnected = {};
 let activeConnection = null;
 let choicesMade = {};
 let keyAttempts = 3;
+let cipherAttemptsLeft = 3; // Количество попыток для шифра
 const wireCanvas = document.getElementById('wireCanvas');
 const wireCtx = wireCanvas.getContext('2d');
 wireCanvas.width = 1100; 
@@ -438,12 +501,10 @@ function startDraggingWire(id, startPoint, event) {
     startRopeAnimation();
 }
 
-document.querySelectorAll('.wire-point[id^="right"]').forEach(point => {
+document.querySelectorAll('.wire-point[id^="left"]').forEach(point => {
     point.addEventListener('mousedown', function(event) {
-
         for (let key in wiresConnected) {
             if (wiresConnected[key] && wiresConnected[key].targetId === this.id) {
-
                 const rect = wireCanvas.getBoundingClientRect();
                 const clickX = event.clientX - rect.left;
                 const clickY = event.clientY - rect.top;
@@ -637,33 +698,34 @@ function drawWires() {
 }
 function checkWires() {
     const requiredConnections = [
-        ['v1', 'right1'], // 3 → log₄(2x + 10) = 2
-        ['v2', 'right2'], // 4 → 2^(x-1) = 8
-        ['v3', 'right3'], // 7 → ∛(3x + 4) = 5
-        ['v4', 'right4'], // -7 → 3^(2x-1) = 27^(x+2)
-        ['v5', 'right5'], // 1 → (x² - 4)/(x + 2) = 3
-        ['v6', 'right6']  // 3.5 → log₃(4x - 5) = 2
+        ['left1', 'right4'], // 3^(2x-1)=27^(x+2) → -7
+        ['left2', 'right1'], // log₄(2x + 10) = 2 → 3
+        ['left3', 'right6'], // log₃(4x - 5) = 2 → 3.5
+        ['left4', 'right3'], // ∛(3x + 4) = 5 → 121/3
+        ['left5', 'right2'], // 2^(x-1) = 8 → 4
+        ['left6', 'right5'], // (x² - 4)/(x + 2) = 3 → 5
     ];
-    let allCorrect = requiredConnections.every(([wireId, targetId]) => {
-        return wiresConnected[wireId] && wiresConnected[wireId].targetId === targetId;
+    let allCorrect = requiredConnections.every(([exampleId, answerId]) => {
+        return wiresConnected[exampleId] && wiresConnected[exampleId].targetId === answerId;
     });
     if (allCorrect && Object.keys(wiresConnected).length === 6) {
         setTimeout(() => {
             document.getElementById('wireTask').style.boxShadow = '0 0 20px #00ff00';
-            document.getElementById('result2').textContent = "Схема собрана правильно! Можно двигаться дальше.";
-            document.getElementById('result2').className = "";
-            if (!document.getElementById('continueBtn')) {
-                const continueBtn = document.createElement('button');
-                continueBtn.id = 'continueBtn';
-                continueBtn.className = 'btn';
-                continueBtn.textContent = 'Продолжить';
-                continueBtn.onclick = () => showNextStep(3);
-                document.getElementById('result2').appendChild(continueBtn);
-            }
+            const result2 = document.getElementById('result2');
+            result2.className = ""; // Убираем hidden!
+            result2.innerHTML = "Схема собрана правильно! Можно двигаться дальше.<br>";
+            const continueBtn = document.createElement('button');
+            continueBtn.id = 'continueBtn';
+            continueBtn.className = 'btn';
+            continueBtn.textContent = 'Продолжить';
+            continueBtn.onclick = () => showNextStep(3);
+            result2.appendChild(continueBtn);
         }, 500);
     } else {
         document.getElementById('wireTask').style.boxShadow = '';
-        document.getElementById('result2').textContent = '';
+        const result2 = document.getElementById('result2');
+        result2.className = "hidden"; // Скрываем при ошибке
+        result2.textContent = '';
     }
 }
 function handleRebusForm(event) {
@@ -682,13 +744,38 @@ function handleRebusForm(event) {
 function handleCipherForm(event) {
   event.preventDefault();
   const answer = document.getElementById('cipherInput').value.trim().toLowerCase();
+  const result = document.getElementById('result4');
+  const hint = document.getElementById('cipherHint');
+  const attempts = document.getElementById('cipherAttempts');
+
   if (answer === "код логарифма") {
-    document.getElementById('result4').textContent = "Шифр разгадан! Что дальше?";
-    document.getElementById('result4').className = "";
+    result.textContent = "Шифр разгадан! Что дальше?";
+    result.className = "";
+    hint.classList.add('hidden');
+    attempts.textContent = "";
     addChoices(4);
+    cipherAttemptsLeft = 3; // сбросить для следующей игры
   } else {
-    document.getElementById('result4').textContent = "Неправильный ответ, попробуйте ещё раз.";
-    document.getElementById('result4').className = "";
+    cipherAttemptsLeft--;
+    if (cipherAttemptsLeft === 2) {
+      attempts.textContent = "Осталось попыток: 2";
+      result.textContent = "Неправильный ответ, попробуйте ещё раз.";
+      result.className = "";
+      hint.classList.add('hidden');
+    } else if (cipherAttemptsLeft === 1) {
+      // Показываем картинку и надпись одновременно
+      hint.classList.remove('hidden');
+      attempts.textContent = "Осталось попыток: 1";
+      result.textContent = "Неправильный ответ, попробуйте ещё раз.";
+      result.className = "";
+    } else if (cipherAttemptsLeft <= 0) {
+      // Картинка и надпись остаются, меняем текст
+      hint.classList.remove('hidden');
+      attempts.textContent = "";
+      result.textContent = "Похоже, вы нашли подсказку на одном из мониторов!";
+      result.className = "";
+      cipherAttemptsLeft = 0; // не уходим в минус
+    }
   }
   return false;
 }
@@ -753,54 +840,93 @@ function setupKeyDropzones() {
   });
 }
 function addChoices(step) {
-let result = document.getElementById(`result${step}`);
-result.innerHTML += `
-  <br><button class="btn" onclick="chooseAction(${step}, 'continue')">Продолжить</button>
-  <button class="btn" onclick="chooseAction(${step}, 'restart')">Начать заново</button>
-`;
+  let result = document.getElementById(`result${step}`);
+  // Удаляем старые кнопки, чтобы не было дублирования
+  const oldBtns = result.querySelectorAll('.btn-choice');
+  oldBtns.forEach(btn => btn.remove());
+
+  // Для шага 5 кнопка должна корректно переходить на промежуточную фазу
+  if (step === 5) {
+    result.innerHTML += `
+      <br><button class="btn btn-choice" onclick="chooseAction(5, 'continue')">Продолжить</button>
+      <button class="btn btn-choice" onclick="chooseAction(5, 'restart')">Начать заново</button>
+    `;
+  } else if (step === 4) {
+    // После шифра Цезаря кнопка "Продолжить" должна вести к chooseAction(5, 'continue')
+    result.innerHTML += `
+      <br><button class="btn btn-choice" onclick="chooseAction(5, 'continue')">Продолжить</button>
+      <button class="btn btn-choice" onclick="chooseAction(4, 'restart')">Начать заново</button>
+    `;
+  } else {
+    result.innerHTML += `
+      <br><button class="btn btn-choice" onclick="chooseAction(${step}, 'continue')">Продолжить</button>
+      <button class="btn btn-choice" onclick="chooseAction(${step}, 'restart')">Начать заново</button>
+    `;
+  }
 }
 function chooseAction(step, action) {
-if (action === 'continue' && step < 5) {
-  showNextStep(step + 1);
-} else if (action === 'restart') {
-  showNextStep(1);
-  wiresConnected = {};
-  choicesMade = {};
-  activeConnection = null;
-  wireCtx.clearRect(0, 0, wireCanvas.width, wireCanvas.height);
-} else if (step === 5) {
-  choicesMade[5] = action;
-  document.getElementById('result5').textContent = action === 'hack' ?
-    "Терминал взломан! За стеклом виднеется силуэт профессора." :
-    "Вы обнаружили тайный выход с зашифрованными данными.";
-  document.getElementById('result5').className = "";
-  document.getElementById('finalText').textContent = action === 'hack' ?
-    "Профессор ранен, но жив. Спасти его или продолжить в одиночку?" :
-    "Документы раскрывают правду, но профессор остаётся в неизвестности. Ваш выбор?";
-  document.getElementById('choice6a').textContent = action === 'hack' ? "Спасти профессора" : "Уйти с документами";
-  document.getElementById('choice6b').textContent = action === 'hack' ? "Оставить его" : "Вернуться за профессора";
-  showNextStep(6);
-} else if (step === 6) {
-  choicesMade[6] = action;
-  document.getElementById('result6').className = "";
-  let key = document.getElementById('keyCenter');
-  let dropzones = document.getElementById('keyDropzonesContainer');
-  key.classList.remove('hidden');
-  dropzones.classList.remove('hidden');
-  key.style.display = 'block';
-  setupKeyDropzones();
-}
+  if (action === 'continue') {
+    if (step === 4) {
+      showNextStep(5);
+    }
+    // После шифра Цезаря (step 5) — переход на промежуточную фазу выбора
+    else if (step === 5) {
+      showNextStep('5b'); // Важно передавать строку '5b', а не число
+    }
+    else {
+      showNextStep(step + 1);
+    }
+  } else if (action === 'restart') {
+    showNextStep(1);
+    wiresConnected = {};
+    choicesMade = {};
+    activeConnection = null;
+    wireCtx.clearRect(0, 0, wireCanvas.width, wireCanvas.height);
+  } else if ((step === '5b' || step === 5) && (action === 'hack' || action === 'leave')) {
+    // Сохраняем выбор и переходим к финалу
+    choicesMade[5] = action;
+    document.getElementById('result5').textContent = action === 'hack'
+      ? "Терминал взломан! За стеклом виднеется силуэт профессора."
+      : "Вы обнаружили тайный выход с зашифрованными данными.";
+    document.getElementById('result5').className = "";
+    document.getElementById('finalText').textContent = action === 'hack'
+      ? "Профессор ранен, но жив. Спасти его или продолжить в одиночку?"
+      : "Документы раскрывают правду, но профессор остаётся в неизвестности. Ваш выбор?";
+    document.getElementById('choice6a').textContent = action === 'hack'
+      ? "Спасти профессора"
+      : "Уйти с документами";
+    document.getElementById('choice6b').textContent = action === 'hack'
+      ? "Оставить его"
+      : "Вернуться за профессора";
+    showNextStep(6);
+  } else if (step === 6) {
+    choicesMade[6] = action;
+    document.getElementById('result6').className = "";
+    let key = document.getElementById('keyCenter');
+    let dropzones = document.getElementById('keyDropzonesContainer');
+    key.classList.remove('hidden');
+    dropzones.classList.remove('hidden');
+    key.style.display = 'block';
+    setupKeyDropzones();
+  }
 }
 function showNextStep(step) {
-document.getElementById(`path${currentStep}`).className = 'scene hidden';
-currentStep = step;
-document.getElementById(`path${currentStep}`).className = 'scene';
-if (currentStep === 7) {
-  startGame();
-}
-if (currentStep === 8) {
-  startBlinkGame();
-}
+  document.getElementById(`path${currentStep}`).className = 'scene hidden';
+  currentStep = step;
+  
+  // Добавляем специальную обработку для промежуточной фазы
+  if (step === '5b') {
+    document.getElementById('path5b').className = 'scene';
+  } else {
+    document.getElementById(`path${step}`).className = 'scene';
+  }
+  
+  if (step == 7) {
+    startGame();
+  }
+  if (step == 8) {
+    startBlinkGame();
+  }
 }
 function showEnding(ending) {
 const key = document.getElementById('keyCenter');
@@ -895,6 +1021,12 @@ function updateDrops() {
 }
 updateDrops();
 }
+window.addEventListener('resize', () => {
+  confettiCanvas.width = window.innerWidth;
+  confettiCanvas.height = window.innerHeight;
+  rainCanvas.width = window.innerWidth;
+  rainCanvas.height = window.innerHeight;
+});
 let gameObjects = [];
 let score = 0;
 let gameInterval = null;
@@ -1024,7 +1156,39 @@ document.getElementById('restartBlinkBtn').classList.remove('hidden');
 function restartBlinkGame() {
 startBlinkGame();
 }
+function handleMorseForm(event) {
+  event.preventDefault();
+  // Получаем ответы пользователя
+  const word1 = document.getElementById('morseInput1').value.trim().toLowerCase();
+  const word2 = document.getElementById('morseInput2').value.trim().toLowerCase();
+  const word3 = document.getElementById('morseInput3').value.trim().toLowerCase();
+  const word4 = document.getElementById('morseInput4').value.trim().toLowerCase();
+
+  // Правильные ответы
+  if (
+    word1 === "квест" &&
+    word2 === "система" &&
+    word3 === "хакеры" &&
+    word4 === "код"
+  ) {
+    const result = document.getElementById('resultMorse');
+    result.textContent = "Морзянка разгадана! Что дальше?";
+    result.className = "";
+    // Добавляем кнопки "Продолжить" и "Начать заново"
+    result.innerHTML += `
+      <br><button class="btn" onclick="chooseAction(4, 'continue')">Продолжить</button>
+      <button class="btn" onclick="chooseAction(4, 'restart')">Начать заново</button>
+    `;
+  } else {
+    const result = document.getElementById('resultMorse');
+    result.textContent = "Неправильный ответ, попробуйте ещё раз.";
+    result.className = "";
+  }
+  return false;
+}
 </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'930a4f1c0987b03f',t:'MTc0NDcwODIxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'930a70d04dc9adc3',t:'MTc0NDcwOTU5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9316d42f8c4f53b2',t:'MTc0NDgzOTQ5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'930a4f1c0987b03f',t:'MTc0NDcwODIxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'930a70d04dc9adc3',t:'MTc0NDcwOTU5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv=params={r:'9316d42f8c4f53b2',t:'MTc0NDgzOTQ5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<canvas id="confettiCanvas" class="effect-canvas"></canvas>
+<canvas id="rainCanvas" class="effect-canvas"></canvas>
 </body>
 </html>
